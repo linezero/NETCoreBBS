@@ -15,6 +15,7 @@ namespace NetCoreBBS
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseUrls("http://*:80")
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 
