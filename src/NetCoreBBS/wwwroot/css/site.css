@@ -1,0 +1,40 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+.topics{margin-top:20px;}
+.topics .panel-body{padding:0px 10px;}
+.topic{min-height:68px;border-bottom:1px solid #F0F0F0;padding:10px 15px;}
+.avatar{float:left;}
+.avatar-48 {
+    height:48px;
+    width:48px;
+    border-radius:120px;
+}
+.title{font-size:16px;margin-bottom:0px;margin-top:0px;}
+.title a{line-height:28px;}
+.info{color:#ABA8A6;margin-bottom:0px;margin-top:0px;}
+.node-list .node{margin-bottom:10px;margin-top:0px;}
+.node-list .node .media-left{min-width:130px;font-weight:normal;text-align:right;color:#aaa;float:left;}
+.node-list .node .name {margin-bottom:10px;width:100px;display:block;float:left;text-align:left;}
+#sections .panel-body{padding:15px;}

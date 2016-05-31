@@ -1,0 +1,82 @@
+﻿@model NetCoreBBS.Models.Topic
+@{
+    ViewData["Title"] = Model.Title;
+    var list = ViewBag.Replys as List<NetCoreBBS.Models.TopicReply>;
+}
+<div class="row">
+    <div class="col-md-9" style="margin-top:20px;">
+        <h3>@Model.Title</h3>
+        <p class="text-right">@Model.CreateOn.ToString("MM-dd HH:mm")</p>
+        <hr />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>@Model.Content</p>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p class="panel-title">回复：</p>
+            </div>
+            <ul class="list-group">
+                @foreach (var item in list)
+                {
+                    <li class="list-group-item">@item.ReplyContent</li>
+                }
+            </ul>
+        </div>
+        <div class="panel panel-default" style="padding:20px;">
+            <form class="form-horizontal" method="post">
+                <input type="hidden" name="TopicId" value="@Model.Id" />
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email" required name="ReplyEmail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">内容</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="10" placeholder="填写内容" name="ReplyContent"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">回复</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default" style="margin-top:20px;">
+            <div class="panel-heading">
+                <h3 class="panel-title">.NET Core 跨平台论坛介绍</h3>
+            </div>
+            <div class="panel-body">
+                .NET Core 开发<br />
+                VS Code 或者 VS2015 Update 2+VS2015Tools.Preview1<br />
+                更多详细：<a href="http://dot.net" target="_blank">dot.net</a><br />
+                <h3>论坛系统介绍：</h3>
+                系统开发：<br />
+                ASP.NET Core + EF Core Sqlite + Bootstrap <br />
+                运行环境：<br />
+                Ubuntu 14.04 + Kestrel <br /><br />
+                博客介绍：
+                <a href="http://www.cnblogs.com/linezero/" target="_blank">
+                    LineZero's Blog
+                </a><br />
+                服务器时间：@DateTime.Now
+            </div>
+        </div>
+        <div class="panel panel-default topics">
+            <div class="panel-heading">
+                <h3 class="panel-title">统计信息</h3>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">社区会员: 10 人</li>
+                <li class="list-group-item">帖子数: 100 个</li>
+                <li class="list-group-item">回帖数: 100 条</li>
+            </ul>
+        </div>
+    </div>
+</div>
