@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family:"微软雅黑",'Microsoft YaHei';
+    background:#e9eaed;
 }
 
 /* Wrapping element */
@@ -22,6 +24,9 @@
     display: none
   }
 }
+.navbar-inverse .navbar-brand,.navbar-inverse .navbar-nav > li > a{color:#333;}
+.navbar-inverse .navbar-brand:hover,.navbar-inverse .navbar-nav > li > a:hover{color:#333;}
+.navbar-inverse{background-color:#fff;box-shadow:0 1px 1px rgba(0,0,0,0.11);border:0px;}
 .topics{margin-top:20px;}
 .topics .panel-body{padding:0px 10px;}
 .topic{min-height:68px;border-bottom:1px solid #F0F0F0;padding:10px 15px;}
@@ -31,10 +36,21 @@
     width:48px;
     border-radius:120px;
 }
-.title{font-size:16px;margin-bottom:0px;margin-top:0px;}
+.title{font-size:18px;margin-bottom:0px;margin-top:0px;}
 .title a{line-height:28px;}
 .info{color:#ABA8A6;margin-bottom:0px;margin-top:0px;}
 .node-list .node{margin-bottom:10px;margin-top:0px;}
 .node-list .node .media-left{min-width:130px;font-weight:normal;text-align:right;color:#aaa;float:left;}
 .node-list .node .name {margin-bottom:10px;width:100px;display:block;float:left;text-align:left;}
 #sections .panel-body{padding:15px;}
+.topic-detail{margin-bottom:15px;}
+.topic-detail h1{font-size:24px;}
+.topic-detail .avatar{float:right;}
+.items.panel-body{padding:0px 15px;}
+.reply:last-child{border-bottom:0px;}
+.reply{border-bottom:1px solid #eee;}
+.reply{margin:0px -15px;padding:15px 15px;position:relative;padding-left:74px;}
+.reply .avatar{position:absolute;top:15px;left:15px;}
+.reply .infos{min-height:48px;}
+.reply .info{margin-bottom:6px;}
+.reply .markdown{position:relative;line-height:1.8em;text-overflow:ellipsis;word-wrap:break-word;}

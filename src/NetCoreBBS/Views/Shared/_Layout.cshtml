@@ -8,6 +8,7 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />        
+        <link href="~/lib/bootstrap-markdown/css/bootstrap-markdown.min.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -52,7 +53,9 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/bootstrap-wysiwyg.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+        <script src="~/js/markdown.js"></script>
+        <script src="~/js/to-markdown.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

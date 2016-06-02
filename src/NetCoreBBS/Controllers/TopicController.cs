@@ -35,7 +35,7 @@ namespace NetCoreBBS.Controllers
                 _context.TopicReplys.Add(reply);
                 _context.SaveChanges();
             }
-            return Redirect("/topic?id=" + reply.TopicId);
+            return RedirectToAction("Index", "Topic", new { Id = reply.TopicId });
         }
     }
 }
