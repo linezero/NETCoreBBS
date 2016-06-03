@@ -18,7 +18,7 @@ namespace NetCoreBBS.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.Topics = _context.Topics.ToList();
+            ViewBag.Topics = _context.Topics.OrderByDescending(r=>r.CreateOn).ToList();
             return View();
         }
 

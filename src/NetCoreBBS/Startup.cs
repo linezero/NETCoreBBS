@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetCoreBBS.Models;
 using Microsoft.EntityFrameworkCore;
+using NLog.Extensions.Logging;
+using NetCoreBBS.Middleware;
 
 namespace NetCoreBBS
 {
@@ -37,7 +39,9 @@ namespace NetCoreBBS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddNLog();
+
+            app.UseRequestIPMiddleware();
 
             InitializeNetCoreBBSDatabase(app.ApplicationServices);
             app.UseDeveloperExceptionPage();

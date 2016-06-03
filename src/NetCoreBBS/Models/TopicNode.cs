@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreBBS.Models
 {
-    public class Node
+    public class TopicNode
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
