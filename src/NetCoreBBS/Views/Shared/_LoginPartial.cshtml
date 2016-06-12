@@ -1,0 +1,23 @@
+﻿@inject SignInManager<BBSUser> SignInManager
+@inject UserManager<BBSUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-area="Admin" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
+            <li><a asp-controller="Home" asp-action="About">关于</a></li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Login">登录</a></li>
+        <li><a asp-controller="Account" asp-action="Register">注册</a></li>
+        <li><a asp-controller="Home" asp-action="About">关于</a></li>
+    </ul>
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreBBS.Models
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<BBSUser>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -22,6 +23,7 @@ namespace NetCoreBBS.Models
             modelBuilder.Entity<Topic>().ToTable("Topic");
             modelBuilder.Entity<TopicReply>().ToTable("TopicReply");
             modelBuilder.Entity<TopicNode>().ToTable("TopicNode");
+            modelBuilder.Entity<BBSUser>().ToTable("BBSUser");
         }
     }
 }

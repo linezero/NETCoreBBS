@@ -1,0 +1,58 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "用户登录";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewBag.ReturnUrl" method="post" class="form-horizontal" role="form">
+                <h4>用户登录</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UserName" class="form-control" required/>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Password" class="form-control" required/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            <input asp-for="RememberMe" />
+                            <label asp-for="RememberMe"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="登录" class="btn btn-default" />
+                    </div>
+                </div>
+                <p>
+                    <a asp-action="Register">注册</a>
+                </p>
+                <p>
+                    <a asp-action="ForgotPassword">忘记了密码?</a>
+                </p>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @await Html.PartialAsync("_ExternalLoginsListPartial", new { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+@section scripts{
+
+}

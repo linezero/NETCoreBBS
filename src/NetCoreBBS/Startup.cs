@@ -11,6 +11,8 @@ using NetCoreBBS.Models;
 using Microsoft.EntityFrameworkCore;
 using NLog.Extensions.Logging;
 using NetCoreBBS.Middleware;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace NetCoreBBS
 {
@@ -32,6 +34,13 @@ namespace NetCoreBBS
         {
             var connection = "Filename=netcorebbs.db";
             services.AddDbContext<DataContext>(options => options.UseSqlite(connection));
+            services.AddIdentity<BBSUser, IdentityRole>(options =>
+            {
+                options.Password = new PasswordOptions() {
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase=false
+                };
+            }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
             services.AddMvc();
         }
@@ -47,6 +56,7 @@ namespace NetCoreBBS
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {

@@ -1,0 +1,27 @@
+﻿@inject SignInManager<BBSUser> SignInManager
+<h4>用其他平台的帐号登录</h4>
+<hr />
+@{
+    var loginProviders = SignInManager.GetExternalAuthenticationSchemes();
+    if (!loginProviders.Any())
+    {
+        <div>
+            <p>
+                需要添加其他平台
+            </p>
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewBag.ReturnUrl" method="post" class="form-horizontal" role="form">
+            <div id="socialLoginList">
+                <p>
+                    @foreach (var p in loginProviders)
+                    {
+                        <button type="submit" class="btn btn-default" id="@p.AuthenticationScheme" name="provider" value="@p.AuthenticationScheme" title="用 @p.DisplayName 登录">@p.AuthenticationScheme</button>
+                    }
+                </p>
+            </div>
+        </form>
+    }
+}
