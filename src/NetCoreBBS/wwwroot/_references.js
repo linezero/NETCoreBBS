@@ -1,7 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="../gulpfile.js" />
 /// <reference path="js/markdown.js" />
-/// <reference path="js/site.min.js" />
 /// <reference path="js/to-markdown.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/bootstrap-markdown/js/bootstrap-markdown.js" />
