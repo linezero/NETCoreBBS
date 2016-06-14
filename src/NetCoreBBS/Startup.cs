@@ -34,6 +34,10 @@ namespace NetCoreBBS
         {
             var connection = "Filename=netcorebbs.db";
             services.AddDbContext<DataContext>(options => options.UseSqlite(connection));
+
+            services.AddSession();
+
+
             services.AddIdentity<BBSUser, IdentityRole>(options =>
             {
                 options.Password = new PasswordOptions() {
@@ -42,22 +46,26 @@ namespace NetCoreBBS
                 };
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
+
+           
             services.AddMvc();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
-
+           
             app.UseRequestIPMiddleware();
 
             InitializeNetCoreBBSDatabase(app.ApplicationServices);
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
+            app.UseSession();
             app.UseIdentity();
-
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -68,6 +76,8 @@ namespace NetCoreBBS
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+           
         }
 
         private void InitializeNetCoreBBSDatabase(IServiceProvider serviceProvider)
