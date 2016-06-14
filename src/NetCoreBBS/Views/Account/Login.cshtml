@@ -26,6 +26,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Code" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <img src="/Account/Captcha" width="100" height="25" /><input asp-for="Code" class="form-control" required />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
                             <input asp-for="RememberMe" />

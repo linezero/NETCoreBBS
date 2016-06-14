@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using NetCoreBBS.Models;
 using NetCoreBBS.ViewModels;
 using Microsoft.Extensions.Logging;
+using YOYO.DotnetCore;
+using Microsoft.AspNetCore.Hosting;
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,15 +18,16 @@ namespace NetCoreBBS.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
-
+        private IHostingEnvironment _Env;
         public AccountController(
             UserManager<BBSUser> userManager,
             SignInManager<BBSUser> signInManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger, IHostingEnvironment env)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _logger = logger;
+            _Env = env;
         }
 
         public UserManager<BBSUser> UserManager { get; }
@@ -48,7 +54,7 @@ namespace NetCoreBBS.Controllers
             }
 
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
+            if (result.Succeeded && model.Code == this.HttpContext.Session.GetString("code"))
             {
                 _logger.LogInformation("Logged in {userName}.", model.UserName);
                 return RedirectToLocal(returnUrl);
@@ -60,6 +66,21 @@ namespace NetCoreBBS.Controllers
                 return View(model);
             }
         }
+
+        public async Task<IActionResult> Captcha()
+        {
+            string fileName = Guid.NewGuid().ToString() + ".bmp";
+            string filePath = Path.Combine( this._Env.WebRootPath , fileName);
+            
+
+            CaptchaImageCore image = new CaptchaImageCore(220, 60, 57);
+            var stream = image.GetStream(filePath);
+
+            this.HttpContext.Session.SetString("code", image.Text);
+            return File(stream.ToArray(), "image/jpg", fileName);
+        }
+
+
 
         //
         // GET: /Account/Register

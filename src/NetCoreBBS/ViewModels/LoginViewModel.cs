@@ -15,6 +15,11 @@ namespace NetCoreBBS.ViewModels
 
         [Display(Name = "记住登录状态")]
         public bool RememberMe { get; set; }
+
+        [Required]
+        [Display(Name = "验证码")]
+        public string Code { set; get; }
+
     }
 
     public class RegisterViewModel
