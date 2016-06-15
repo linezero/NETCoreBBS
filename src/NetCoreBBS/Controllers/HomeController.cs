@@ -2,20 +2,25 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreBBS.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace NetCoreBBS.Controllers
 {
     public class HomeController : Controller
     {
         private DataContext _context;
+        public UserManager<BBSUser> UserManager { get; }
 
-        public HomeController(DataContext context)
+        public HomeController(DataContext context,UserManager<BBSUser> userManager)
         {
             _context = context;
+            UserManager = userManager;
         }
-        public IActionResult Index()
+        public IActionResult Index([FromServices]IUserServices user)
         {
             ViewBag.Topics = _context.Topics.OrderByDescending(r=>r.CreateOn).ToList();
+            ViewBag.User = user.User.Result;
             return View();
         }
 
@@ -40,6 +45,11 @@ namespace NetCoreBBS.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        private Task<BBSUser> GetCurrentUserAsync()
+        {
+            return UserManager.GetUserAsync(HttpContext.User);
         }
     }
 }

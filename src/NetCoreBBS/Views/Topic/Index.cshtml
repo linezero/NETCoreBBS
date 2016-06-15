@@ -1,4 +1,5 @@
-﻿@model Topic
+﻿@inject UserServices services
+@model Topic
 @{
     ViewData["Title"] = Model.Title;
     var list = ViewBag.Replys as List<TopicReply>;
@@ -38,15 +39,18 @@
                 {
                     var item = list[i];
                     <div class="reply" data-id="@item.Id" id="reply@(i+1)">
-                        <div class="avatar"><a href="#">
-                            <img class="media-object avatar-48" src="/images/96.png"></a></div>
+                        <div class="avatar">
+                            <a href="#">
+                                <img class="media-object avatar-48" src="/images/96.png">
+                            </a>
+                        </div>
                         <div class="infos">
                             <div class="info">
                                 <span class="name">
                                     <a href="#">@item.ReplyEmail</a>
                                 </span> ·
                                 <span class="time">
-                                    <a class="reply-floor" href="#reply@(i+1)">#@(i+1)</a> · <abbr class="timeago">@item.CreateOn.ToString("MM-dd HH:mm")</abbr>
+                                    <a class="reply-floor" href="#reply@(i+1)">#@(i + 1)</a> · <abbr class="timeago">@item.CreateOn.ToString("MM-dd HH:mm")</abbr>
                                 </span>
                                 <span class="opts pull-right">
                                     <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="297575" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
@@ -66,10 +70,17 @@
             <form class="form-horizontal" method="post">
                 <input type="hidden" name="TopicId" value="@Model.Id" />
                 <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email" required name="ReplyEmail">
-                    </div>
+                    @if (await services.User == null)
+                    {
+                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email" required name="ReplyEmail">
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" name="ReplyEmail" value="@((await services.User).Email)" />
+                    }
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">内容</label>

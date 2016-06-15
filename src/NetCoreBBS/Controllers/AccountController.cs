@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -56,7 +57,7 @@ namespace NetCoreBBS.Controllers
             else
             {
                 _logger.LogWarning("Failed to log in {userName}.", model.UserName);
-                ModelState.AddModelError("", "登录失败");
+                ModelState.AddModelError("", "用户名或密码错误");
                 return View(model);
             }
         }
@@ -76,7 +77,7 @@ namespace NetCoreBBS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new BBSUser { UserName = model.UserName, Email = model.Email };
+                var user = new BBSUser { UserName = model.UserName, Email = model.Email,CreateOn=DateTime.Now,LastTime=DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

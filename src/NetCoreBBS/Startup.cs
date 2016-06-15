@@ -43,6 +43,9 @@ namespace NetCoreBBS
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
             services.AddMvc();
+
+            services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<UserServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,7 @@ namespace NetCoreBBS
 
             app.UseStaticFiles();
             app.UseIdentity();
+            app.UseStatusCodePages();
 
             app.UseMvc(routes =>
             {

@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = ".NET Core 跨平台论坛";
     var list = ViewBag.Topics as List<Topic>;
+    var user = ViewBag.User as BBSUser;
 }
 @model Topic
 
@@ -39,12 +40,19 @@
         </div>
         <div class="panel panel-default" style="padding:15px">
             <form class="form-horizontal" method="post">
-                <div class="form-group">
+                <div class="form-group">    
+                    @if (user == null)
+                    {
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" placeholder="Email" required asp-for="Email">
                     </div>
-                </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Email" value="@(user.Email)">
+                    }
+                </div>                
                 <div class="form-group">
                     <label for="inputTitle" class="col-sm-2 control-label">主题</label>
                     <div class="col-sm-10">
