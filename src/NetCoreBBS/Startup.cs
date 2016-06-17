@@ -34,7 +34,7 @@ namespace NetCoreBBS
         {
             var connection = "Filename=netcorebbs.db";
             services.AddDbContext<DataContext>(options => options.UseSqlite(connection));
-            services.AddIdentity<BBSUser, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password = new PasswordOptions() {
                     RequireNonAlphanumeric = false,

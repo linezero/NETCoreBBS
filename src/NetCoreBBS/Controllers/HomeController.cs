@@ -10,9 +10,9 @@ namespace NetCoreBBS.Controllers
     public class HomeController : Controller
     {
         private DataContext _context;
-        public UserManager<BBSUser> UserManager { get; }
+        public UserManager<User> UserManager { get; }
 
-        public HomeController(DataContext context,UserManager<BBSUser> userManager)
+        public HomeController(DataContext context,UserManager<User> userManager)
         {
             _context = context;
             UserManager = userManager;
@@ -45,11 +45,6 @@ namespace NetCoreBBS.Controllers
         public IActionResult Error()
         {
             return View();
-        }
-
-        private Task<BBSUser> GetCurrentUserAsync()
-        {
-            return UserManager.GetUserAsync(HttpContext.User);
         }
     }
 }

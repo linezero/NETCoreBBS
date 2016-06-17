@@ -17,9 +17,9 @@
                         ·
                         于 <abbr class="timeago">@Model.CreateOn.ToString("MM-dd HH:mm")</abbr>发布
                         ·
-                        最后由 <a href="#">demo</a> 于 <abbr class="timeago" title="2016-06-01T10:53:44+08:00">6 小时前</abbr>回复
+                        最后由 <a href="#">demo</a> 于 <abbr class="timeago" title="@Model.LastReplyTime">@Model.LastReplyTime.ToString("MM-dd HH:mm")</abbr>回复
                         ·
-                        100 次阅读
+                        @Model.ViewCount 次阅读
                     </div>
                 </div>
                 <div class="media-right">
@@ -79,6 +79,7 @@
                     }
                     else
                     {
+                        <input type="hidden" name="UserId" value="@((await services.User).Id)" />
                         <input type="hidden" name="ReplyEmail" value="@((await services.User).Email)" />
                     }
                 </div>

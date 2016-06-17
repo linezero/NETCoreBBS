@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreBBS.Models
 {
-    public class DataContext : IdentityDbContext<BBSUser>
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -16,6 +16,8 @@ namespace NetCoreBBS.Models
         public DbSet<Topic> Topics { get; set; }
         public DbSet<TopicReply> TopicReplys { get; set; }
         public DbSet<TopicNode> TopicNodes { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<UserTopic> UserTopics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +25,9 @@ namespace NetCoreBBS.Models
             modelBuilder.Entity<Topic>().ToTable("Topic");
             modelBuilder.Entity<TopicReply>().ToTable("TopicReply");
             modelBuilder.Entity<TopicNode>().ToTable("TopicNode");
-            modelBuilder.Entity<BBSUser>().ToTable("BBSUser");
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<UserMessage>().ToTable("UserMessage");
+            modelBuilder.Entity<UserTopic>().ToTable("UserTopic");
         }
     }
 }

@@ -16,16 +16,21 @@ namespace NetCoreBBS.Controllers
         {
             _context = context;
         }
-        // GET: /<controller>/
+        // GET: /Topic/1
+        [Route("/Topic/{id}")]
         public IActionResult Index(int id)
         {
             if (id <= 0) return Redirect("/");
             var topic = _context.Topics.Single(r => r.Id == id);
             var replys = _context.TopicReplys.Where(r => r.TopicId == id).ToList();
+            topic.ViewCount += 1;
+            _context.Update(topic);
+            _context.SaveChanges();
             ViewBag.Replys = replys;
             return View(topic);
         }
         [HttpPost]
+        [Route("/Topic/{id}")]
         public IActionResult Index(TopicReply reply)
         {
             if (ModelState.IsValid)
@@ -33,6 +38,11 @@ namespace NetCoreBBS.Controllers
                 reply.Id = 0;
                 reply.CreateOn = DateTime.Now;
                 _context.TopicReplys.Add(reply);
+                var topic = _context.Topics.Single(r => r.Id == reply.TopicId);
+                topic.LastReplyUserId = reply.UserId;
+                topic.LastReplyTime = reply.CreateOn;
+                topic.ReplyCount += 1;
+                _context.Update(topic);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index", "Topic", new { Id = reply.TopicId });

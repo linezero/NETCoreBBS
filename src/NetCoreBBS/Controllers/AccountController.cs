@@ -16,8 +16,8 @@ namespace NetCoreBBS.Controllers
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
-            UserManager<BBSUser> userManager,
-            SignInManager<BBSUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILogger<AccountController> logger)
         {
             UserManager = userManager;
@@ -25,9 +25,9 @@ namespace NetCoreBBS.Controllers
             _logger = logger;
         }
 
-        public UserManager<BBSUser> UserManager { get; }
+        public UserManager<User> UserManager { get; }
 
-        public SignInManager<BBSUser> SignInManager { get; }
+        public SignInManager<User> SignInManager { get; }
 
         //
         // GET: /Account/Login
@@ -77,7 +77,7 @@ namespace NetCoreBBS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new BBSUser { UserName = model.UserName, Email = model.Email,CreateOn=DateTime.Now,LastTime=DateTime.Now };
+                var user = new User { UserName = model.UserName, Email = model.Email,CreateOn=DateTime.Now,LastTime=DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -126,7 +126,7 @@ namespace NetCoreBBS.Controllers
             }
         }
 
-        private Task<BBSUser> GetCurrentUserAsync()
+        private Task<User> GetCurrentUserAsync()
         {
             return UserManager.GetUserAsync(HttpContext.User);
         }

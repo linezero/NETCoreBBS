@@ -7,18 +7,18 @@ namespace NetCoreBBS
 {
     public interface IUserServices
     {
-        Task<BBSUser> User { get; }
+        Task<User> User { get; }
     }
     public class UserServices : IUserServices
     {
-        public UserManager<BBSUser> UserManager { get; }
+        public UserManager<User> UserManager { get; }
         private IHttpContextAccessor Context;
-        public UserServices(UserManager<BBSUser> userManager, IHttpContextAccessor context)
+        public UserServices(UserManager<User> userManager, IHttpContextAccessor context)
         {
             UserManager = userManager;
             Context = context;
         }
-        public Task<BBSUser> User
+        public Task<User> User
         {
             get
             {

@@ -1,12 +1,18 @@
-﻿@inject SignInManager<BBSUser> SignInManager
-@inject UserManager<BBSUser> UserManager
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
+                @if (UserManager.GetUserName(User).Equals("admin"))
+                {
                 <a asp-area="Admin" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
+                }
+                else { 
+                    <a href="javascript:;">@UserManager.GetUserName(User)</a>
+                }
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
             <li><a asp-controller="Home" asp-action="About">关于</a></li>
