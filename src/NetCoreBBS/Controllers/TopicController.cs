@@ -21,7 +21,8 @@ namespace NetCoreBBS.Controllers
         public IActionResult Index(int id)
         {
             if (id <= 0) return Redirect("/");
-            var topic = _context.Topics.Single(r => r.Id == id);
+            var topic = _context.Topics.FirstOrDefault(r => r.Id == id);
+            if (topic == null) return Redirect("/");
             var replys = _context.TopicReplys.Where(r => r.TopicId == id).ToList();
             topic.ViewCount += 1;
             _context.Update(topic);
