@@ -1,4 +1,5 @@
-﻿<div class="panel panel-default" style="margin-top:20px;">
+﻿@using NetCoreBBS.ViewComponents
+<div class="panel panel-default" style="margin-top:20px;">
     <div class="panel-heading">
         <h3 class="panel-title">.NET Core 跨平台论坛介绍</h3>
     </div>
@@ -18,13 +19,5 @@
         服务器时间：@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
     </div>
 </div>
-<div class="panel panel-default topics">
-    <div class="panel-heading">
-        <h3 class="panel-title">统计信息</h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">社区会员: 10 人</li>
-        <li class="list-group-item">帖子数: 100 个</li>
-        <li class="list-group-item">回帖数: 100 条</li>
-    </ul>
-</div>
+@(await Component.InvokeAsync<TopicRankList>())
+@(await Component.InvokeAsync<Statistics>())

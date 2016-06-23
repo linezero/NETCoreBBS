@@ -1,0 +1,15 @@
+﻿@model List<Topic>
+
+<div class="panel panel-default topics">
+    <div class="panel-heading">
+        <h3 class="panel-title">主题排行</h3>
+    </div>
+    <div class="list-group">
+        @foreach (var item in Model)
+            {
+            <a asp-controller="Topic" asp-action="Index" asp-route-id="@item.Id" class="list-group-item">
+                @item.Title
+            </a>
+        }
+    </div>
+</div>

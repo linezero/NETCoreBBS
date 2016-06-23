@@ -32,7 +32,10 @@
                             </div>
                             <div class="info">
                                 node 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                @if (item.LastReplyTime != DateTime.MinValue)
+                                {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
+                                }
                             </div>
                         </div>
                         <div class="count media-right">
