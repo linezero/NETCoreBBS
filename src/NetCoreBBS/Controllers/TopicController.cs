@@ -31,6 +31,7 @@ namespace NetCoreBBS.Controllers
             return View(topic);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("/Topic/{id}")]
         public IActionResult Index(TopicReply reply)
         {

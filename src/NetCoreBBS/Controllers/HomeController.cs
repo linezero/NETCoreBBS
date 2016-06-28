@@ -19,12 +19,21 @@ namespace NetCoreBBS.Controllers
         }
         public IActionResult Index([FromServices]IUserServices user)
         {
-            ViewBag.Topics = _context.Topics.OrderByDescending(r=>r.CreateOn).ToList();
+            var pagesize = 20;
+            var pageindex = 1;
+            if (!string.IsNullOrEmpty(Request.Query["page"]))
+                pageindex = Convert.ToInt32(Request.Query["page"]);
+            var count= _context.Topics.Count();
+            ViewBag.Topics = _context.Topics.Skip(pagesize*(pageindex-1))
+                .Take(pagesize).OrderByDescending(r=>r.CreateOn).ToList();
+            ViewBag.PageIndex = pageindex;
+            ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
             ViewBag.User = user.User.Result;
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index(Topic topic)
         {
             if (ModelState.IsValid)

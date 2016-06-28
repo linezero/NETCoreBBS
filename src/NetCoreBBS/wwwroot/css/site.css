@@ -61,3 +61,5 @@
 .reply .infos{min-height:48px;}
 .reply .info{margin-bottom:6px;}
 .reply .markdown{position:relative;line-height:1.8em;text-overflow:ellipsis;word-wrap:break-word;}
+.panel-footer{padding:6px 15px;}
+.pagination{margin:0px;}
