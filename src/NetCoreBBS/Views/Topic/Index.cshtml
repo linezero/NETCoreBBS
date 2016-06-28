@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="panel panel-default" style="padding:20px;">
-            <form class="form-horizontal" method="post">
+            <form class="form-horizontal" method="post" asp-controller="Topic" asp-action="Index">
                 <input type="hidden" name="TopicId" value="@Model.Id" />
                 <div class="form-group">
                     @if (await services.User == null)
