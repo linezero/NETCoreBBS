@@ -71,7 +71,10 @@
                     {
                         <li class="disabled"><a href="#">&hellip;</a></li>
                     }
+                    @if (pagecount > 1)
+                    {
                     <li @(pageindex == pagecount ? "class=active" : "")><a rel="end" href="/?page=@pagecount">@pagecount</a></li>
+                    }
                     <li class="next next_page @(pageindex==pagecount?"disabled":"")">
                         <a rel="next" href="/?page=@(pageindex+1)">下一页 &#8594;</a>
                     </li>
