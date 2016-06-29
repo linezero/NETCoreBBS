@@ -24,8 +24,9 @@ namespace NetCoreBBS.Controllers
             if (!string.IsNullOrEmpty(Request.Query["page"]))
                 pageindex = Convert.ToInt32(Request.Query["page"]);
             var count= _context.Topics.Count();
-            ViewBag.Topics = _context.Topics.Skip(pagesize*(pageindex-1))
-                .Take(pagesize).OrderByDescending(r=>r.CreateOn).ToList();
+            ViewBag.Topics = _context.Topics.OrderByDescending(r => r.CreateOn)
+                .Skip(pagesize*(pageindex-1))
+                .Take(pagesize).ToList();
             ViewBag.PageIndex = pageindex;
             ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
             ViewBag.User = user.User.Result;

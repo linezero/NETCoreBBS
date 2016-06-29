@@ -53,7 +53,7 @@
                         var pageend = pagestart + 5 >= pagecount ? pagecount : pagestart + 5;
                     }
                     <li class="prev previous_page @(pageindex == 1 ? "disabled" : "")">
-                        <a href="/page=@(pageindex - 1)">&#8592; 上一页</a>
+                        <a href="@(pagestart==1?"#":$"/?page={pageindex - 1}")">&#8592; 上一页</a>
                     </li>
                     <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="/?page=1">1</a></li>
                     @if (pagestart > 1)
@@ -76,7 +76,7 @@
                     <li @(pageindex == pagecount ? "class=active" : "")><a rel="end" href="/?page=@pagecount">@pagecount</a></li>
                     }
                     <li class="next next_page @(pageindex==pagecount?"disabled":"")">
-                        <a rel="next" href="/?page=@(pageindex+1)">下一页 &#8594;</a>
+                        <a rel="next" href="@(pageindex==pagecount?"#":$"/?page={pageindex + 1}")">下一页 &#8594;</a>
                     </li>
                 </ul>
             </div>
