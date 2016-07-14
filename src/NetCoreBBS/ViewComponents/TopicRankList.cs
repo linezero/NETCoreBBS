@@ -20,12 +20,12 @@ namespace NetCoreBBS.ViewComponents
             _memoryCache = memoryCache;
         }
 
-        public  IViewComponentResult Invoke()
+        public  IViewComponentResult Invoke(int days)
         {
             var items = new List<Topic>();
             if (!_memoryCache.TryGetValue(cachekey, out items))
             {
-                items = GetRankTopics(10, 7);
+                items = GetRankTopics(10, days);
                 _memoryCache.Set(cachekey, items, TimeSpan.FromMinutes(10));
             }
             return View(items);

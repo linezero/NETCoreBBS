@@ -32,7 +32,7 @@ namespace NetCoreBBS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration["Data:DefaultConnection:ConnectionString"]));
+            services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password = new PasswordOptions() {
@@ -46,6 +46,15 @@ namespace NetCoreBBS
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<UserServices>();
             services.AddMemoryCache();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "Admin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireClaim("Admin", "Allowed");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

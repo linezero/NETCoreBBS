@@ -23,5 +23,5 @@
         服务器时间：@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
     </div>
 </div>
-@(await Component.InvokeAsync<TopicRankList>())
+@(await Component.InvokeAsync<TopicRankList>(new { days = 30 }))
 @(await Component.InvokeAsync<Statistics>())

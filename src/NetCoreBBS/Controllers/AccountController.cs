@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using NetCoreBBS.Models;
 using NetCoreBBS.ViewModels;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -86,7 +87,11 @@ namespace NetCoreBBS.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
                         "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    return RedirectToAction("Index", "Home");
+                    if (user.UserName=="admin")
+                    {
+                        await UserManager.AddClaimAsync(user, new Claim("Admin", "Allowed"));
+                    }
+                    return RedirectToAction("Login");
                 }
                 AddErrors(result);
             }
@@ -112,6 +117,11 @@ namespace NetCoreBBS.Controllers
             await SignInManager.SignOutAsync();
 
             _logger.LogInformation("{userName} logged out.", userName);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult AccessDenied()
+        {
             return RedirectToAction("Index", "Home");
         }
 
