@@ -1,0 +1,82 @@
+﻿@model List<Topic>
+@{
+    ViewBag.Title = "主题列表";
+}
+
+<h3 class="page-header">主题列表</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>主题</th>
+                <th>发布时间</th>
+                <th>回复数</th>
+                <th>回复时间</th>
+                <th>优质</th>
+                <th>管理</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.Top == 1 ? "[置顶]" : "")@item.Title</td>
+                    <td>@item.CreateOn</td>
+                    <td>@item.ReplyCount</td>
+                    <td>@item.LastReplyTime</td>
+                    <td>@(item.Good ? "是" : "否")</td>
+                    <td>
+                        <div class="modal fade" id="TopicModal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <form method="post" asp-action="EditSave">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="exampleModalLabel">编辑主题</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="Id" value="@item.Id" />
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="control-label">主题:</label>
+                                                <input type="text" class="form-control" name="Title" value="@item.Title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="control-label">内容:</label>
+                                                <textarea class="form-control" name="Content" data-provide="markdown" rows="10">@item.Content</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消编辑</button>
+                                            <button type="submit" class="btn btn-primary" id="Save">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="javascript:;" data-toggle="modal" data-target="#TopicModal_@item.Id">编辑</a>|
+                        <a asp-action="Delete" asp-route-id="@item.Id" onclick="var r = confirm('确认删除？'); if (!r) return false;">删除</a>|
+                        @if (item.Top == 0)
+                        {
+                            <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="top">置顶</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="notop">取消置顶</a>
+                        }
+                        |
+                        @if (!item.Good)
+                        {
+                            <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="good">优质</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="nogood">取消优质</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Partial("_PagerPartial", ViewData)
+</div>
+

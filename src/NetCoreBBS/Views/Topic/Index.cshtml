@@ -9,7 +9,7 @@
         <div class="topic-detail panel panel-default">
             <div class="panel-heading media clearfix">
                 <div class="media-body">
-                    <h1 class="media-heading">@Model.Title</h1>
+                    <h1 class="media-heading">@(Model.Top == 1 ? "[置顶]" : "")@Model.Title</h1>
                     <div class="info">
                         <a class="node" href="/topic/node25">node</a>
                         ·

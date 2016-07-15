@@ -32,19 +32,26 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="#">欢迎 admin</a></li>
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
             </div>
         </div>
     </nav>
     <div class="container-fluid">
-        @RenderBody()
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a asp-action="Index" asp-controller="Manage" asp-area="Admin">总览</a></li>
+                    <li><a asp-action="Index" asp-controller="Topic" asp-area="Admin">主题管理</a></li>
+                    <li><a href="#">回复管理</a></li>
+                    <li><a href="#">节点管理</a></li>
+                    <li><a href="#">用户管理</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                @RenderBody()
+            </div>
+        </div>
     </div>
 
     <environment names="Development">
@@ -67,7 +74,14 @@
         <script src="~/js/markdown.js"></script>
         <script src="~/js/to-markdown.js"></script>
     </environment>
-
+    <script>
+        $(".nav-sidebar li a").each(function () {
+            var path = location.pathname;
+            var href = $(this).attr("href");
+            if (href == path)
+                $(this).parent().addClass("active");
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

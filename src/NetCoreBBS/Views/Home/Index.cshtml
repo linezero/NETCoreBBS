@@ -27,7 +27,7 @@
                         <div class="media-body">
                             <div class="title">
                                 <a asp-controller="Topic" asp-action="Index" asp-route-id="@item.Id">
-                                    @item.Title
+                                    @(item.Top==1?"[置顶]":"")@item.Title
                                 </a>
                             </div>
                             <div class="info">
