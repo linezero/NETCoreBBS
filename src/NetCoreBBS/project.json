@@ -22,7 +22,12 @@
     "NLog.Extensions.Logging": "1.0.0-rtm-alpha2",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
     "Microsoft.AspNetCore.Authorization": "1.0.0",
-    "Microsoft.Extensions.Caching.Memory": "1.0.0"
+    "Microsoft.Extensions.Caching.Memory": "1.0.0",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    },
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "1.0.0-preview2-final"
   },
 
   "tools": {
@@ -36,6 +41,13 @@
       "imports": "portable-net45+win8+dnxcore50"
     },
     "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview2-final",
+      "imports": [
+        "portable-net45+win8+dnxcore50",
+        "portable-net45+win8"
+      ]
+    },
+    "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
       "version": "1.0.0-preview2-final",
       "imports": [
         "portable-net45+win8+dnxcore50",
