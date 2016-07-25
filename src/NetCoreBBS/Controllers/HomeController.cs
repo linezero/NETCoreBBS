@@ -21,10 +21,13 @@ namespace NetCoreBBS.Controllers
         {
             var pagesize = 20;
             var pageindex = 1;
+            var topics = _context.Topics.AsQueryable();
             if (!string.IsNullOrEmpty(Request.Query["page"]))
                 pageindex = Convert.ToInt32(Request.Query["page"]);
-            var count= _context.Topics.Count();
-            ViewBag.Topics = _context.Topics
+            if (!string.IsNullOrEmpty(Request.Query["s"]))
+                topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
+            var count= topics.Count();
+            ViewBag.Topics = topics
                 .OrderByDescending(r => r.CreateOn)
                 .OrderByDescending(r => r.Top)                
                 .Skip(pagesize*(pageindex-1))
