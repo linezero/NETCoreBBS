@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/NetCoreBBS.dll",
+            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\NetCoreBBS.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
@@ -26,13 +26,16 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
             }
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
-            "processId": 0
+            "processId": "${command.pickProcess}"
         }
     ]
 }
