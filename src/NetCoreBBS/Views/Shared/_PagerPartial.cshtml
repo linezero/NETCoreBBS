@@ -1,16 +1,18 @@
 ﻿@{
     var pageindex = Convert.ToInt32(ViewBag.PageIndex);
     var pagecount = Convert.ToInt32(ViewBag.PageCount);
+    var path = Context.Request.Path.Value;
+    var query = Context.Request.QueryString.Value;
+    query = query == "" ? "?" : $"{query}&";
+    path = path + query;
+    var pagestart = pageindex - 2 > 0 ? pageindex - 2 : 1;
+    var pageend = pagestart + 5 >= pagecount ? pagecount : pagestart + 5;
 }
 <ul class="pagination">
-    @{
-        var pagestart = pageindex - 2 > 0 ? pageindex - 2 : 1;
-        var pageend = pagestart + 5 >= pagecount ? pagecount : pagestart + 5;
-    }
     <li class="prev previous_page @(pageindex == 1 ? "disabled" : "")">
-        <a href="@(pageindex==1?"#":$"/?page={pageindex - 1}")">&#8592; 上一页</a>
+        <a href="@(pageindex==1?"#":$"{path}page={pageindex - 1}")">&#8592; 上一页</a>
     </li>
-    <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="/?page=1">1</a></li>
+    <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="@(path)page=1">1</a></li>
     @if (pagestart > 1)
     {
         <li class="disabled"><a href="#">&hellip;</a></li>
@@ -19,7 +21,7 @@
     {
         if (i > 1)
         {
-            <li @(pageindex == i ? "class=active" : "")><a rel="next" href="/?page=@i">@i</a></li>
+            <li @(pageindex == i ? "class=active" : "")><a rel="next" href="@(path)page=@i">@i</a></li>
         }
     }
     @if (pageend < pagecount)
@@ -28,9 +30,9 @@
     }
     @if (pagecount > 1)
     {
-        <li @(pageindex == pagecount ? "class=active" : "")><a rel="end" href="/?page=@pagecount">@pagecount</a></li>
+        <li @(pageindex == pagecount ? "class=active" : "")><a rel="end" href="@(path)page=@pagecount">@pagecount</a></li>
     }
     <li class="next next_page @(pageindex==pagecount?"disabled":"")">
-        <a rel="next" href="@(pageindex==pagecount?"#":$"/?page={pageindex + 1}")">下一页 &#8594;</a>
+        <a rel="next" href="@(pageindex==pagecount?"#":$"{path}page={pageindex + 1}")">下一页 &#8594;</a>
     </li>
 </ul>
