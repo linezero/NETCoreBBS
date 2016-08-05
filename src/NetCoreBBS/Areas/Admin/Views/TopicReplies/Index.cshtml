@@ -1,0 +1,49 @@
+﻿@model IEnumerable<NetCoreBBS.Models.TopicReply>
+
+@{
+    ViewData["Title"] = "回复管理";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>回复管理</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplyEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopicId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplyEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopicId)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
