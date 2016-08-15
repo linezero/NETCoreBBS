@@ -25,15 +25,16 @@ namespace NetCoreBBS.Areas.Admin.Controllers
             var pageindex = 1;
             if (!string.IsNullOrEmpty(Request.Query["page"]))
                 pageindex = Convert.ToInt32(Request.Query["page"]);
-            var count = _context.Topics.Count();
-            var topics = _context.Topics
+            var topics = _context.Topics.AsQueryable();
+            var count = topics.Count();
+            var topiclist = topics
                 .OrderByDescending(r => r.CreateOn)
                 .OrderByDescending(r => r.Top)                
                 .Skip(pagesize * (pageindex - 1))
                 .Take(pagesize).ToList();
             ViewBag.PageIndex = pageindex;
             ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
-            return View(topics);
+            return View(topiclist);
         }
 
         public IActionResult Delete(int id)
@@ -42,6 +43,8 @@ namespace NetCoreBBS.Areas.Admin.Controllers
             if (topic != null)
             {
                 _context.Topics.Remove(topic);
+                var replys=_context.TopicReplys.Where(r => r.TopicId == id).ToList();
+                _context.TopicReplys.RemoveRange(replys);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }

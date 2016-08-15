@@ -1,0 +1,79 @@
+﻿@model IEnumerable<NetCoreBBS.Models.User>
+
+@{
+    ViewData["Title"] = "用户管理";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>用户管理</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopicCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopicReplyCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GitHub)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Avatar
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.TopicCount
+                </td>
+                <td>
+                    @item.TopicReplyCount
+                </td>
+                <td>
+                    @item.Url
+                </td>
+                <td>
+                    @item.GitHub
+                </td>
+                <td>
+                    @item.CreateOn
+                </td>
+                <td>
+                    @item.LastTime
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

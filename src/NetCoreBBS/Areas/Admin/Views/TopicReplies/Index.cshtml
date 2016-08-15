@@ -1,49 +1,42 @@
-﻿@model IEnumerable<NetCoreBBS.Models.TopicReply>
-
+﻿@model List<TopicReply>
 @{
-    ViewData["Title"] = "回复管理";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "";
 }
 
-<h2>回复管理</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplyEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TopicId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyContent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplyEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TopicId)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@for (int i = 0; i < Model.Count; i++)
+{
+    var item = Model[i];
+    <div class="reply" data-id="@item.Id" id="reply_@item.Id">
+        <div class="info">
+            <span class="name">
+                <a href="#">@item.ReplyEmail</a>
+            </span> ·
+            <span class="time">
+                <a class="reply-floor" href="#">#@(i + 1)</a> · <abbr class="timeago">@item.CreateOn.ToString("MM-dd HH:mm")</abbr>
+            </span>
+            <span class="opts pull-right">
+                <a data-id="@item.Id" href="#" class="del">删除</a>
+            </span>
+        </div>
+        <div class="markdown">
+            <p>@item.ReplyContent</p>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
+<script>
+    $(".markdown p").each(function () {
+        var c = $(this).html();
+        $(this).html(markdown.toHTML(c));
+    });
+    $(".del").on("click", function () {
+        var id = $(this).data('id');
+        $.ajax({
+            url: "/Admin/TopicReplies/Delete",
+            data: { id: id },
+            success: function (data, status) {
+                if (status == "nocontent")
+                    $("#reply_" + id).hide();
+            }
+        });
+    });
+</script>

@@ -22,9 +22,10 @@ namespace NetCoreBBS.Areas.Admin.Controllers
         }
 
         // GET: TopicReplies
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            return View(await _context.TopicReplys.ToListAsync());
+            var topicreplys = _context.TopicReplys.Where(r => r.TopicId == id).ToListAsync();
+            return View(await topicreplys);
         }
         // GET: TopicReplies/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -39,8 +40,12 @@ namespace NetCoreBBS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            return View(topicReply);
+            var topic = await _context.Topics.SingleOrDefaultAsync(r => r.Id == topicReply.TopicId);
+            topic.ReplyCount -= 1;
+            _context.Topics.Update(topic);
+            _context.TopicReplys.Remove(topicReply);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
