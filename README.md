@@ -8,11 +8,8 @@ ASP.NET Core 1.0 + EF Core 1.0 Sqlite + Bootstrap
 [live demo](http://104.251.232.80/)
 
 
-##待完善
-1. 节点功能
-5. 界面优化
-
 ##已开发
+1. 节点功能
 1. 主题发布
 2. 主题回复
 3. 主题筛选
