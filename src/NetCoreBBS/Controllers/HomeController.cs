@@ -23,17 +23,7 @@ namespace NetCoreBBS.Controllers
         {
             var pagesize = 20;
             var pageindex = 1;
-            var topics = _context.Topics.AsQueryable();
-            if (!string.IsNullOrEmpty(Request.Query["page"]))
-                pageindex = Convert.ToInt32(Request.Query["page"]);
-            if (!string.IsNullOrEmpty(Request.Query["s"]))
-                topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
-            var count = topics.Count();
-            //var q = from t in topics
-            //        join n in _context.TopicNodes on t.NodeId equals n.Id into tn
-            //        from n2 in tn.DefaultIfEmpty()
-            //        select t;
-            ViewBag.Topics = topics
+            var topics = _context.Topics
                 .GroupJoin(_context.TopicNodes,
                 r => r.NodeId,
                 n => n.Id,
@@ -50,7 +40,17 @@ namespace NetCoreBBS.Controllers
                     ReplyCount = r.r.ReplyCount,
                     LastReplyTime = r.r.LastReplyTime,
                     CreateOn = r.r.CreateOn
-                })
+                }).AsQueryable();
+            if (!string.IsNullOrEmpty(Request.Query["page"]))
+                pageindex = Convert.ToInt32(Request.Query["page"]);
+            if (!string.IsNullOrEmpty(Request.Query["s"]))
+                topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
+            var count = topics.Count();
+            //var q = from t in topics
+            //        join n in _context.TopicNodes on t.NodeId equals n.Id into tn
+            //        from n2 in tn.DefaultIfEmpty()
+            //        select t;
+            ViewBag.Topics = topics
                 .OrderByDescending(r => r.CreateOn)
                 .OrderByDescending(r => r.Top)
                 .Skip(pagesize * (pageindex - 1))
@@ -58,7 +58,7 @@ namespace NetCoreBBS.Controllers
             ViewBag.PageIndex = pageindex;
             ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
             ViewBag.User = user.User.Result;
-            var nodes= _context.TopicNodes.ToList();
+            var nodes = _context.TopicNodes.ToList();
             ViewBag.Nodes = nodes;
             ViewBag.NodeListItem = nodes.Where(r => r.ParentId != 0).Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name });
             return View();

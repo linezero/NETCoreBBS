@@ -2,9 +2,17 @@
     var pageindex = Convert.ToInt32(ViewBag.PageIndex);
     var pagecount = Convert.ToInt32(ViewBag.PageCount);
     var path = Context.Request.Path.Value;
-    var query = Context.Request.QueryString.Value;
-    query = query == "" ? "?" : $"{query}&";
-    path = path + query;
+    var query = string.Empty;
+    var querys = Context.Request.Query;
+    foreach (var item in querys)
+    {
+        if (!item.Key.Equals("page"))
+        {
+            query += $"{item.Key}={item.Value}&";
+        }
+    }
+    query = query == string.Empty ? "?" : "?" + query;
+    path += query;
     var pagestart = pageindex - 2 > 0 ? pageindex - 2 : 1;
     var pageend = pagestart + 5 >= pagecount ? pagecount : pagestart + 5;
 }
