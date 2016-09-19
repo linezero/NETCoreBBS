@@ -43,8 +43,8 @@ namespace NetCoreBBS
             // Add framework services.
             services.AddMvc();
 
-            services.AddTransient<IUserServices, UserServices>();
-            services.AddTransient<UserServices>();
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<UserServices>();
             services.AddMemoryCache();
             services.AddAuthorization(options =>
             {

@@ -25,7 +25,6 @@ namespace NetCoreBBS.Controllers
             if (topic == null) return Redirect("/");
             var replys = _context.TopicReplys.Where(r => r.TopicId == id).ToList();
             topic.ViewCount += 1;
-            _context.Update(topic);
             _context.SaveChanges();
             ViewBag.Replys = replys;
             return View(topic);
@@ -44,10 +43,38 @@ namespace NetCoreBBS.Controllers
                 topic.LastReplyUserId = reply.UserId;
                 topic.LastReplyTime = reply.CreateOn;
                 topic.ReplyCount += 1;
-                _context.Update(topic);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index", "Topic", new { Id = reply.TopicId });
+        }
+
+        [Route("/Topic/Node/{name}")]
+        public IActionResult Node(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return Redirect("/");
+            var node = _context.TopicNodes.FirstOrDefault(r => r.NodeName == name);
+            if (node == null)
+                node= _context.TopicNodes.FirstOrDefault(r => r.Id == Convert.ToInt32(name));
+            if (node == null) return Redirect("/");
+            var pagesize = 20;
+            var pageindex = 1;
+            var topics = _context.Topics.AsQueryable();
+            if (!string.IsNullOrEmpty(Request.Query["page"]))
+                pageindex = Convert.ToInt32(Request.Query["page"]);
+            if (!string.IsNullOrEmpty(Request.Query["s"]))
+                topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
+            var count = topics.Count();
+            ViewBag.Topics = topics
+                .Where(r=>r.NodeId==node.Id)
+                .OrderByDescending(r => r.CreateOn)
+                .OrderByDescending(r => r.Top)
+                .Skip(pagesize * (pageindex - 1))
+                .Take(pagesize).ToList();
+            ViewBag.PageIndex = pageindex;
+            ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
+            ViewBag.Node = node;
+            ViewBag.Count = count;
+            return View();
         }
     }
 }

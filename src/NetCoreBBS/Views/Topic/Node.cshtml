@@ -1,8 +1,9 @@
-﻿@{
-    ViewData["Title"] = ".NET Core 跨平台论坛";
-    var list = ViewBag.Topics as List<TopicViewModel>;
-    var user = ViewBag.User as User;
-    var nodes = ViewBag.Nodes as List<TopicNode>;
+﻿@inject UserServices services
+@{
+    var node = ViewBag.Node as TopicNode;
+    ViewData["Title"] = node.Name+"-.NET Core 跨平台论坛";
+    var list = ViewBag.Topics as List<Topic>;
+    var user = await services.User;
 }
 @model Topic
 
@@ -10,12 +11,13 @@
     <div class="col-md-9 topics">
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-                <div class="pull-right">
-                    <span class="l">查看:</span>
-                    <a href="#" class="active">默认</a> /
-                    <a href="#" class="popular">优质帖子</a> /
-                    <a href="#">无人问津</a> /
-                    <a href="#">最新创建</a>
+                <div class="node-info">
+                    <div class="name">
+                        <strong>@node.Name</strong> <span class="total">共有 @ViewBag.Count 个讨论主题</span>
+                    </div>
+                    <div class="summary">
+                        <p>@node.Name 讨论区</p>
+                    </div>
                 </div>
             </div>
             <div class="panel-body">
@@ -28,11 +30,11 @@
                         <div class="media-body">
                             <div class="title">
                                 <a asp-controller="Topic" asp-action="Index" asp-route-id="@item.Id">
-                                    @(item.Top==1?"[置顶]":"")@item.Title
+                                    @(item.Top == 1 ? "[置顶]" : "")@item.Title
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@node.Id">@node.Name</a> 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
                                 {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
@@ -49,19 +51,12 @@
                 }
             </div>
             <div class="panel-footer clearfix">
-                @Html.Partial("_PagerPartial",ViewData)
+                @Html.Partial("_PagerPartial", ViewData)
             </div>
         </div>
         <div class="panel panel-default" style="padding:15px">
             <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">节点</label>
-                    <div class="col-sm-10">
-                        <select asp-for="NodeId" asp-items="ViewBag.NodeListItem" class="form-control">
-                            <option value="0">请选择一个节点</option>
-                        </select>
-                    </div>
-                </div>
+                <input type="hidden" asp-for="NodeId" value="@(node.Id)" />
                 <div class="form-group">
                     @if (user == null)
                     {
@@ -94,25 +89,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div id="sections" class="panel panel-default">
-            <div class="panel-heading">讨论节点分类导航</div>
-            <div class="panel-body">
-                <div class="row node-list">
-                    @foreach (var item in nodes.Where(r => r.ParentId == 0).OrderBy(r => r.Order))
-                    {
-                        <div class="node media">
-                            <label class="media-left">@item.Name</label>
-                            <span class="nodes media-body">
-                                @foreach (var n in nodes.Where(r => r.ParentId == item.Id).OrderBy(r=>r.Order))
-                                {
-                                    <span class="name"><a title="@n.Name" href="/topic/node/@n.NodeName">@n.Name</a></span>
-                                }
-                            </span>
-                        </div>
-                    }
-                </div>
-            </div>
         </div>
     </div>
     <div class="col-md-3">
