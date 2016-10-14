@@ -58,14 +58,13 @@ namespace NetCoreBBS.Controllers
             if (node == null) return Redirect("/");
             var pagesize = 20;
             var pageindex = 1;
-            var topics = _context.Topics.AsQueryable();
+            var topics = _context.Topics.Where(r => r.NodeId == node.Id).AsQueryable();
             if (!string.IsNullOrEmpty(Request.Query["page"]))
                 pageindex = Convert.ToInt32(Request.Query["page"]);
             if (!string.IsNullOrEmpty(Request.Query["s"]))
                 topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
             var count = topics.Count();
             ViewBag.Topics = topics
-                .Where(r=>r.NodeId==node.Id)
                 .OrderByDescending(r => r.CreateOn)
                 .OrderByDescending(r => r.Top)
                 .Skip(pagesize * (pageindex - 1))
