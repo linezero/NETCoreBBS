@@ -63,3 +63,6 @@
 .reply .markdown{position:relative;line-height:1.8em;text-overflow:ellipsis;word-wrap:break-word;}
 .panel-footer{padding:6px 15px;}
 .pagination{margin:0px;}
+img {
+    max-width:100%;height:auto;
+}

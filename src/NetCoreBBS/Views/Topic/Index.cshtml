@@ -103,7 +103,7 @@
 @section scripts{
     <script>
         $(".markdown p").each(function () {
-            var c = $(this).html();
+            var c = $(this).text();
             $(this).html(markdown.toHTML(c));
         })
     </script>

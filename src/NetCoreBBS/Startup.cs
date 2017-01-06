@@ -13,6 +13,9 @@ using NLog.Extensions.Logging;
 using NetCoreBBS.Middleware;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Unicode;
+using System.Text.Encodings.Web;
 
 namespace NetCoreBBS
 {
@@ -55,11 +58,17 @@ namespace NetCoreBBS
                         authBuilder.RequireClaim("Admin", "Allowed");
                     });
             });
+            //文字被编码 https://github.com/aspnet/HttpAbstractions/issues/315
+            services.Configure<WebEncoderOptions>(options =>
+            {
+                options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            env.ConfigureNLog("nlog.config");
             loggerFactory.AddNLog();
 
             app.UseRequestIPMiddleware();
