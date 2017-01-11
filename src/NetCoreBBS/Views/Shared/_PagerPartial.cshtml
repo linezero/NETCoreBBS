@@ -21,7 +21,7 @@
         <a href="@(pageindex==1?"#":$"{path}page={pageindex - 1}")">&#8592; 上一页</a>
     </li>
     <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="@(path)page=1">1</a></li>
-    @if (pagestart > 1)
+    @if (pagestart > 2)
     {
         <li class="disabled"><a href="#">&hellip;</a></li>
     }
