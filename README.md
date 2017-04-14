@@ -8,7 +8,7 @@ ASP.NET Core 1.0 + EF Core 1.0 Sqlite + Bootstrap
 [live demo](http://104.251.232.80/)
 
 
-##已开发
+## 已开发
 1. 节点功能
 1. 主题发布
 2. 主题回复
@@ -17,3 +17,5 @@ ASP.NET Core 1.0 + EF Core 1.0 Sqlite + Bootstrap
 4. 主题置顶
 5. 后台管理
 
+## License
+NETCoreBBS is licensed under [MIT](LICENSE).
