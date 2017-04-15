@@ -1,6 +1,8 @@
 ﻿@{
     var pageindex = Convert.ToInt32(ViewBag.PageIndex);
     var pagecount = Convert.ToInt32(ViewBag.PageCount);
+    pagecount = pagecount == 0 ? 1 : pagecount;
+    pageindex = pageindex > pagecount ? pagecount : pageindex;
     var path = Context.Request.Path.Value;
     var query = string.Empty;
     var querys = Context.Request.Query;
