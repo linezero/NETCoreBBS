@@ -17,6 +17,9 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link href="~/lib/bootstrap-markdown/css/bootstrap-markdown.min.css" rel="stylesheet" />
     </environment>
+    @{ 
+        var resourceMgr = NetCoreBBS.Resources.Resources.ResourceManager;
+    }
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -33,7 +36,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 @await Html.PartialAsync("_LoginPartial")
                 <form class="navbar-form navbar-right" asp-controller="Home" asp-action="Index" method="get">
-                    <input type="text" class="form-control" name="s" placeholder="搜索...">
+                    <input type="text" class="form-control" name="s" placeholder="@resourceMgr.GetString("Search")...">
                 </form>
             </div>
         </div>

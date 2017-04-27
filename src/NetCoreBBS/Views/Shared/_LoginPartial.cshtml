@@ -1,6 +1,10 @@
 ﻿@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+@{ 
+    var resourceMgr = NetCoreBBS.Resources.Resources.ResourceManager;
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
@@ -14,16 +18,16 @@
                     <a href="javascript:;">@UserManager.GetUserName(User)</a>
                 }
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
-            <li><a asp-controller="Home" asp-action="About">关于</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">@resourceMgr.GetString("LogOut")</a></li>
+            <li><a asp-controller="Home" asp-action="About">@resourceMgr.GetString("About")</a></li>
         </ul>
     </form>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Login">登录</a></li>
-        <li><a asp-controller="Account" asp-action="Register">注册</a></li>
-        <li><a asp-controller="Home" asp-action="About">关于</a></li>
+        <li><a asp-controller="Account" asp-action="Login">@resourceMgr.GetString("LogIn")</a></li>
+        <li><a asp-controller="Account" asp-action="Register">@resourceMgr.GetString("Register")</a></li>
+        <li><a asp-controller="Home" asp-action="About">@resourceMgr.GetString("About")</a></li>
     </ul>
 }

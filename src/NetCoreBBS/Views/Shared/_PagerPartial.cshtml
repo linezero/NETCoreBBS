@@ -1,4 +1,5 @@
 ﻿@{
+    var resourceMgr = NetCoreBBS.Resources.Resources.ResourceManager;
     var pageindex = Convert.ToInt32(ViewBag.PageIndex);
     var pagecount = Convert.ToInt32(ViewBag.PageCount);
     pagecount = pagecount == 0 ? 1 : pagecount;
@@ -20,7 +21,7 @@
 }
 <ul class="pagination">
     <li class="prev previous_page @(pageindex == 1 ? "disabled" : "")">
-        <a href="@(pageindex==1?"#":$"{path}page={pageindex - 1}")">&#8592; 上一页</a>
+        <a href="@(pageindex==1?"#":$"{path}page={pageindex - 1}")">&#8592; @resourceMgr.GetString("Previous")</a>
     </li>
     <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="@(path)page=1">1</a></li>
     @if (pagestart > 2)
@@ -43,6 +44,6 @@
         <li @(pageindex == pagecount ? "class=active" : "")><a rel="end" href="@(path)page=@pagecount">@pagecount</a></li>
     }
     <li class="next next_page @(pageindex==pagecount?"disabled":"")">
-        <a rel="next" href="@(pageindex==pagecount?"#":$"{path}page={pageindex + 1}")">下一页 &#8594;</a>
+        <a rel="next" href="@(pageindex==pagecount?"#":$"{path}page={pageindex + 1}")">@resourceMgr.GetString("Next") &#8594;</a>
     </li>
 </ul>
