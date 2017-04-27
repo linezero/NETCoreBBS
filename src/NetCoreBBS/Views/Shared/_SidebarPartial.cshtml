@@ -1,18 +1,21 @@
 ﻿@using NetCoreBBS.ViewComponents
+@{ 
+    var resourceMgr = NetCoreBBS.Resources.Resources.ResourceManager;
+}
 <div class="panel panel-default" style="margin-top:20px;">
     <div class="panel-heading">
         <h3 class="panel-title">.NET Core 跨平台论坛介绍</h3>
     </div>
     <div class="panel-body">
-        .NET Core 开发<br />
-        VS Code 或者 VS 2017<br />
-        更多详细：<a href="http://dot.net" target="_blank">dot.net</a><br />
-        <h3>论坛系统介绍：</h3>
-        系统开发：<br />
+        .NET Core @resourceMgr.GetString("Development")<br />
+        VS Code @resourceMgr.GetString("Or") VS 2017<br />
+        @resourceMgr.GetString("MoreDetails")：<a href="http://dot.net" target="_blank">dot.net</a><br />
+        <h3>@resourceMgr.GetString("Introduction")：</h3>
+        @resourceMgr.GetString("SystemDevelopment")：<br />
         ASP.NET Core + EF Core Sqlite + Bootstrap <br />
-        运行环境：<br />
+        @resourceMgr.GetString("OperatingEnv")：<br />
         Ubuntu 14.04 + Kestrel <br /><br />
-        博客介绍：
+        @resourceMgr.GetString("Blog")：
         <a href="http://www.cnblogs.com/linezero/" target="_blank">
             LineZero's Blog
         </a><br />
@@ -20,7 +23,7 @@
         <a href="https://github.com/linezero/NETCoreBBS" target="_blank">
             NETCoreBBS
         </a><br />
-        服务器时间：@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        @resourceMgr.GetString("ServerTime")：@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
     </div>
 </div>
 @(await Component.InvokeAsync<TopicRankList>(new { days = 30 }))

@@ -1,9 +1,11 @@
 ﻿@{
-    ViewData["Title"] = ".NET Core 跨平台论坛";
+    var resourceMgr = NetCoreBBS.Resources.Resources.ResourceManager;
+    ViewData["Title"] = resourceMgr.GetString("HomeIndexTitle");
     var list = ViewBag.Topics as List<TopicViewModel>;
     var user = ViewBag.User as User;
     var nodes = ViewBag.Nodes as List<TopicNode>;
 }
+
 @model Topic
 
 <div class="row">
@@ -11,11 +13,11 @@
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
                 <div class="pull-right">
-                    <span class="l">查看:</span>
-                    <a href="#" class="active">默认</a> /
-                    <a href="#" class="popular">优质帖子</a> /
-                    <a href="#">无人问津</a> /
-                    <a href="#">最新创建</a>
+                    <span class="l">@resourceMgr.GetString("ShortcutList"):</span>
+                    <a href="#" class="active">@resourceMgr.GetString("ActiveNode")</a> /
+                    <a href="#" class="popular">@resourceMgr.GetString("PopularNode")</a> /
+                    <a href="#">@resourceMgr.GetString("NobodyCaresNode")</a> /
+                    <a href="#">@resourceMgr.GetString("NewNode")</a>
                 </div>
             </div>
             <div class="panel-body">
@@ -28,14 +30,14 @@
                         <div class="media-body">
                             <div class="title">
                                 <a asp-controller="Topic" asp-action="Index" asp-route-id="@item.Id">
-                                    @(item.Top==1?"[置顶]":"")@item.Title
+                                    @(item.Top==1?"[" + resourceMgr.GetString("Sticky") + "]":"")@item.Title
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> 【<label>@item.Email</label>】@resourceMgr.GetString("PostedOn") @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
                                 {
-                                    <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
+                                    <label>@resourceMgr.GetString("LastReply") @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
                                 }
                             </div>
                         </div>
@@ -55,10 +57,10 @@
         <div class="panel panel-default" style="padding:15px">
             <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
                 <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">节点</label>
+                    <label for="inputTitle" class="col-sm-2 control-label">@resourceMgr.GetString("Thread")</label>
                     <div class="col-sm-10">
                         <select asp-for="NodeId" asp-items="ViewBag.NodeListItem" class="form-control">
-                            <option value="0">请选择一个节点</option>
+                            <option value="0">@resourceMgr.GetString("SelectThread")</option>
                         </select>
                     </div>
                 </div>
@@ -77,26 +79,26 @@
                     }
                 </div>
                 <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">主题</label>
+                    <label for="inputTitle" class="col-sm-2 control-label">@resourceMgr.GetString("Subject")</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputTitle" placeholder="填写主题" required asp-for="Title">
+                        <input type="text" class="form-control" id="inputTitle" placeholder="@resourceMgr.GetString("EnterSubject")" required asp-for="Title">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">内容</label>
+                    <label class="col-sm-2 control-label">@resourceMgr.GetString("Body")</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows="10" asp-for="Content" placeholder="填写内容" id="editor" data-provide="markdown"></textarea>
+                        <textarea class="form-control" rows="10" asp-for="Content" placeholder="@resourceMgr.GetString("EnterBody")" id="editor" data-provide="markdown"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">发布</button>
+                        <button type="submit" class="btn btn-default">@resourceMgr.GetString("Submit")</button>
                     </div>
                 </div>
             </form>
         </div>
         <div id="sections" class="panel panel-default">
-            <div class="panel-heading">讨论节点分类导航</div>
+            <div class="panel-heading">@resourceMgr.GetString("FooterPanelHeading")</div>
             <div class="panel-body">
                 <div class="row node-list">
                     @foreach (var item in nodes.Where(r => r.ParentId == 0).OrderBy(r => r.Order))
