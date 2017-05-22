@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using NetCoreBBS.Models;
+using NetCoreBBS.Infrastructure;
+using NetCoreBBS.Entities;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -72,15 +73,15 @@ namespace NetCoreBBS.Areas.Admin.Controllers
                     case "top":
                         topic.Top = 1;
                         break;
-                    case "good":
-                        topic.Good = true;
-                        break;
+                    //case "good":
+                    //    topic.Good = true;
+                    //    break;
                     case "notop":
                         topic.Top = 0;
                         break;
-                    case "nogood":
-                        topic.Good = false;
-                        break;
+                    //case "nogood":
+                    //    topic.Good = false;
+                    //    break;
                 }
                 _context.Update(topic);
                 _context.SaveChanges();
