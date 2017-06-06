@@ -102,8 +102,23 @@ namespace NetCoreBBS
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<DataContext>();
-                db.Database.EnsureCreated();
+                db.Database.Migrate();
+                if (db.TopicNodes.Count() == 0)
+                {
+                    db.TopicNodes.AddRange(GetTopicNodes());
+                    db.SaveChanges();
+                }
             }
+        }
+
+        IEnumerable<TopicNode> GetTopicNodes()
+        {
+            return new List<TopicNode>()
+            {
+                new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=0, Order=1, CreateOn=DateTime.Now, },
+                new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=1, Order=1, CreateOn=DateTime.Now, },
+                new TopicNode() { Name="ASP.NET Core", NodeName="aspnetcore", ParentId=1, Order=1, CreateOn=DateTime.Now, }
+            };
         }
     }
 }
