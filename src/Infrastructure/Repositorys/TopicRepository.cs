@@ -22,6 +22,10 @@ namespace NetCoreBBS.Infrastructure.Repositorys
         {
             return _dbContext.Topics.Include(r => r.User).Include(r => r.Node).Include(r => r.LastReplyUser).FirstOrDefault(r => r.Id == id);
         }
+        public override IEnumerable<Topic> List(Expression<Func<Topic, bool>> predicate)
+        {
+            return _dbContext.Topics.Include(r => r.Node).Where(predicate);
+        }
 
         public Page<Topic> PageList(int pagesize=20, int pageindex=1)
         {
@@ -30,7 +34,7 @@ namespace NetCoreBBS.Infrastructure.Repositorys
 
         public Page<Topic> PageList(Expression<Func<Topic, bool>> predicate, int pagesize=20, int pageindex=1)
         {
-            var topics = _dbContext.Topics.Include(r=>r.User).Include(r=>r.Node).Include(r=>r.LastReplyUser).AsQueryable();
+            var topics = _dbContext.Topics.Include(r=>r.User).Include(r=>r.Node).Include(r=>r.LastReplyUser).AsQueryable().AsNoTracking();
             if (predicate != null)
             {
                 topics=topics.Where(predicate);

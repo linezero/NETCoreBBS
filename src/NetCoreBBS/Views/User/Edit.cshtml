@@ -1,0 +1,51 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>修改个人信息</h2>
+
+<form class="form-horizontal" method="post" asp-controller="User" asp-action="Edit" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">昵称</label>
+        <div class="col-sm-10">
+            <label class="form-control">@Model.UserName</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">头像</label>
+        <div class="col-sm-10">
+            <img src="@("/"+Model.Avatar)" />
+            <input type="file" asp-for="Avatar">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">邮箱</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" required asp-for="Email" value="@Model.Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">网站</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" asp-for="Url" value="@Model.Url">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">GitHub</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" asp-for="GitHub" value="@Model.GitHub">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">个人简介</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="10" asp-for="Profile" placeholder="填写内容" id="editor" data-provide="markdown" value="@Model.Profile"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">保存</button>
+        </div>
+    </div>
+</form>

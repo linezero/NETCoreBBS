@@ -11,6 +11,7 @@ namespace NetCoreBBS.ViewModels
         public int NodeId { get; set; }
         public string NodeName { get; set; }
         public string UserName { get; set; }
+        public string Avatar { get; set; }
         public string Title { get; set; }
         public int Top { get; set; }
         public Entities.TopicType Type { get; set; }

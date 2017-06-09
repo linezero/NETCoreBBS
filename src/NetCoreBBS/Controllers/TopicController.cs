@@ -77,6 +77,7 @@ namespace NetCoreBBS.Controllers
                 NodeId = r.Node.Id,
                 NodeName = r.Node.Name,
                 UserName = r.User.UserName,
+                Avatar=r.User.Avatar,
                 Title = r.Title,
                 Top = r.Top,
                 Type = r.Type,

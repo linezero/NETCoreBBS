@@ -22,7 +22,7 @@
                 {
                     <div class="topic">
                         <div class="avatar media-left">
-                            <a href="#"><img class="avatar-48" src="~/images/96.png" alt="96"></a>
+                            <a href="#"><img class="avatar-48" src="@(string.IsNullOrEmpty(item.Avatar)?"/images/96.png":"/"+item.Avatar)" alt="96"></a>
                         </div>
                         <div class="media-body">
                             <div class="title">
@@ -31,7 +31,7 @@
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> 【<label>@item.UserName</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> &nbsp;<label>@item.UserName</label>&nbsp;发布于 @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
                                     {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
@@ -87,9 +87,7 @@
             }
             else
             {
-                <a class="btn btn-primary btn-block" href="/topic/new">发布新话题</a>
-                <p>需要<a asp-controller="Account" asp-action="Login" class="btn btn-primary">登录</a>发布新话题,
-            如果你还没有账号请点击这里 <a asp-controller="Account" asp-action="Register" class="btn btn-danger">注册</a>。</p>
+                <a class="btn btn-primary btn-block" asp-controller="Account" asp-action="Login">发布新话题</a>
             }
         </div>
         <div id="sections" class="panel panel-default">

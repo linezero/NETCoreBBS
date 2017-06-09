@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="media-right">
-                    <a href="#"><img class="media-object avatar-48" src="/images/96.png"></a>
+                    <a href="#"><img class="media-object avatar-48" src="@(string.IsNullOrEmpty(Model.User.Avatar)?"/images/96.png": "/"+Model.User.Avatar)"></a>
                 </div>
             </div>
             <div class="panel-body markdown">
@@ -40,7 +40,7 @@
                     <div class="reply" data-id="@item.Id" id="reply@(i+1)">
                         <div class="avatar">
                             <a href="#">
-                                <img class="media-object avatar-48" src="/images/96.png">
+                                <img class="media-object avatar-48" src="@(string.IsNullOrEmpty(item.ReplyUser.Avatar)?"/images/96.png": "/"+item.ReplyUser.Avatar)">
                             </a>
                         </div>
                         <div class="infos">
@@ -53,7 +53,6 @@
                                 </span>
                                 <span class="opts pull-right">
                                     <a title="赞" data-count="0" data-state="" data-type="Reply" data-id="297575" class="likeable " href="#"><i class="fa fa-thumbs-up"></i> <span></span></a>
-                                    <a class="edit fa fa-pencil" data-uid="20859" title="修改回帖" href="/topics/30177/replies/297575/edit"></a>
                                     <a data-floor="1" data-login="adamshen" title="回复此楼" class="btn-reply fa fa-mail-reply" href="#"></a>
                                 </span>
                             </div>
