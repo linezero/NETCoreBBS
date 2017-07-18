@@ -5,7 +5,7 @@ ASP.NET Core + EF Core Sqlite + Bootstrap
 
 .NET Core 跨平台轻论坛
 
-[live demo](http://dotnet.link/)
+[使用技术点介绍](http://www.cnblogs.com/linezero/p/NETCoreBBS.html)
 
 ## 开发
 
@@ -25,6 +25,7 @@ ASP.NET Core + EF Core Sqlite + Bootstrap
 3. 用户登录注册
 4. 主题置顶
 5. 后台管理
+6. 个人中心
 
 ## License
 NETCoreBBS is licensed under [MIT](LICENSE).
