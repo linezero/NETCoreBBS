@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NetCoreBBS.Models;
+using NetCoreBBS.Entities;
+using NetCoreBBS.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreBBS.Areas.Admin.Controllers

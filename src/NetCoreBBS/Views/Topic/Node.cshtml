@@ -1,8 +1,8 @@
 ﻿@inject UserServices services
 @{
     var node = ViewBag.Node as TopicNode;
-    ViewData["Title"] = node.Name+"-.NET Core 跨平台论坛";
-    var list = ViewBag.Topics as List<Topic>;
+    ViewData["Title"] = node.Name + "-.NET Core 跨平台论坛";
+    var list = ViewBag.Topics as List<TopicViewModel>;
     var user = await services.User;
 }
 @model Topic
@@ -25,7 +25,7 @@
                 {
                     <div class="topic">
                         <div class="avatar media-left">
-                            <a href="#"><img class="avatar-48" src="~/images/96.png" alt="96"></a>
+                            <a href="#"><img class="avatar-48" src="@(string.IsNullOrEmpty(item.Avatar)?"/images/96.png":"/"+item.Avatar)" alt="96"></a>
                         </div>
                         <div class="media-body">
                             <div class="title">
@@ -34,7 +34,7 @@
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@node.Id">@node.Name</a> 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@node.Id">@node.Name</a> 【<label>@item.UserName</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
                                 {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
@@ -55,40 +55,38 @@
             </div>
         </div>
         <div class="panel panel-default" style="padding:15px">
-            <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
-                <input type="hidden" asp-for="NodeId" value="@(node.Id)" />
-                <div class="form-group">
-                    @if (user == null)
-                    {
-                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+            @if (user != null)
+            {
+                <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
+                    <input type="hidden" asp-for="NodeId" value="@(node.Id)" />
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-sm-2 control-label">主题</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email" required asp-for="Email">
+                            <input type="text" class="form-control" id="inputTitle" placeholder="填写主题" required asp-for="Title">
                         </div>
-                    }
-                    else
-                    {
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="10" asp-for="Content" placeholder="填写内容" id="editor" data-provide="markdown"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <input type="hidden" asp-for="UserId" value="@(user.Id)" />
                         <input type="hidden" asp-for="Email" value="@(user.Email)">
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">主题</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputTitle" placeholder="填写主题" required asp-for="Title">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">发布</button>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">内容</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" rows="10" asp-for="Content" placeholder="填写内容" id="editor" data-provide="markdown"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">发布</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            }
+            else
+            {
+                <p>
+                    需要<a asp-controller="Account" asp-action="Login" class="btn btn-primary">登录</a>发布新话题,
+                    如果你还没有账号请点击这里 <a asp-controller="Account" asp-action="Register" class="btn btn-danger">注册</a>。
+                </p>
+            }
         </div>
     </div>
     <div class="col-md-3">

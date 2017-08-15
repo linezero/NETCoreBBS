@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using NetCoreBBS.Models;
+using NetCoreBBS.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

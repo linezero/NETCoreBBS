@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NetCoreBBS.Models;
+using NetCoreBBS.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 

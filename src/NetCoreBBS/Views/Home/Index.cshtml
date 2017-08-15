@@ -5,7 +5,6 @@
     var nodes = ViewBag.Nodes as List<TopicNode>;
 }
 @model Topic
-
 <div class="row">
     <div class="col-md-9 topics">
         <div class="panel panel-default">
@@ -23,77 +22,73 @@
                 {
                     <div class="topic">
                         <div class="avatar media-left">
-                            <a href="#"><img class="avatar-48" src="~/images/96.png" alt="96"></a>
+                            <a href="#"><img class="avatar-48" src="@(string.IsNullOrEmpty(item.Avatar)?"/images/96.png":"/"+item.Avatar)" alt="96"></a>
                         </div>
                         <div class="media-body">
                             <div class="title">
                                 <a asp-controller="Topic" asp-action="Index" asp-route-id="@item.Id">
-                                    @(item.Top==1?"[置顶]":"")@item.Title
+                                    @(item.Top == 1 ? "[置顶]" : "")@item.Title
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> 【<label>@item.Email</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> &nbsp;<label>@item.UserName</label>&nbsp;发布于 @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
-                                {
+                                    {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
-                                }
+                                    }
                             </div>
                         </div>
                         <div class="count media-right">
                             @if (item.ReplyCount > 0)
-                            {
+                                {
                                 <a class="state-false" href="/Topic/@item.Id#reply@(item.ReplyCount)">@item.ReplyCount</a>
-                            }
+                                }
                         </div>
                     </div>
                 }
+
             </div>
             <div class="panel-footer clearfix">
-                @Html.Partial("_PagerPartial",ViewData)
+                @Html.Partial("_PagerPartial", ViewData)
             </div>
         </div>
         <div class="panel panel-default" style="padding:15px">
-            <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">节点</label>
-                    <div class="col-sm-10">
-                        <select asp-for="NodeId" asp-items="ViewBag.NodeListItem" class="form-control">
-                            <option value="0">请选择一个节点</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @if (user == null)
-                    {
-                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+            @if (user != null)
+            {
+                <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-sm-2 control-label">节点</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email" required asp-for="Email">
+                            <select asp-for="NodeId" asp-items="ViewBag.NodeListItem" class="form-control">
+                                <option value="0">请选择一个节点</option>
+                            </select>
                         </div>
-                    }
-                    else
-                    {
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-sm-2 control-label">主题</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputTitle" placeholder="填写主题" required asp-for="Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="10" asp-for="Content" placeholder="填写内容" id="editor" data-provide="markdown"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <input type="hidden" asp-for="UserId" value="@(user.Id)" />
                         <input type="hidden" asp-for="Email" value="@(user.Email)">
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">主题</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputTitle" placeholder="填写主题" required asp-for="Title">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">发布</button>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">内容</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" rows="10" asp-for="Content" placeholder="填写内容" id="editor" data-provide="markdown"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">发布</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-block" asp-controller="Account" asp-action="Login">发布新话题</a>
+            }
         </div>
         <div id="sections" class="panel panel-default">
             <div class="panel-heading">讨论节点分类导航</div>
@@ -104,7 +99,7 @@
                         <div class="node media">
                             <label class="media-left">@item.Name</label>
                             <span class="nodes media-body">
-                                @foreach (var n in nodes.Where(r => r.ParentId == item.Id).OrderBy(r=>r.Order))
+                                @foreach (var n in nodes.Where(r => r.ParentId == item.Id).OrderBy(r => r.Order))
                                 {
                                     <span class="name"><a title="@n.Name" href="/topic/node/@n.NodeName">@n.Name</a></span>
                                 }

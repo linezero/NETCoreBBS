@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NetCoreBBS.Models;
 using Microsoft.Extensions.Caching.Memory;
+using NetCoreBBS.Infrastructure;
+using NetCoreBBS.Entities;
 
 namespace NetCoreBBS.ViewComponents
 {

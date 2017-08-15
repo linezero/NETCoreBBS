@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NetCoreBBS.Models;
+using NetCoreBBS.Infrastructure;
+using NetCoreBBS.Entities;
+using NetCoreBBS.Interfaces;
+using NetCoreBBS.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,39 +14,42 @@ namespace NetCoreBBS.Controllers
 {
     public class TopicController : Controller
     {
-        private DataContext _context;
-        public TopicController(DataContext context)
+        private ITopicRepository _topic;
+        private IRepository<TopicNode> _node;
+        private ITopicReplyRepository _reply;
+        public TopicController(ITopicRepository topic, IRepository<TopicNode> node, ITopicReplyRepository reply)
         {
-            _context = context;
+            _topic = topic;
+            _node = node;
+            _reply = reply;
         }
         // GET: /Topic/1
         [Route("/Topic/{id}")]
         public IActionResult Index(int id)
         {
             if (id <= 0) return Redirect("/");
-            var topic = _context.Topics.FirstOrDefault(r => r.Id == id);
+            var topic = _topic.GetById(id);
             if (topic == null) return Redirect("/");
-            var replys = _context.TopicReplys.Where(r => r.TopicId == id).ToList();
+            var replys = _reply.List(r => r.TopicId == id).ToList();
             topic.ViewCount += 1;
-            _context.SaveChanges();
+            _topic.Edit(topic);
             ViewBag.Replys = replys;
             return View(topic);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/Topic/{id}")]
-        public IActionResult Index(TopicReply reply)
+        public IActionResult Index([Bind("TopicId,ReplyUserId,ReplyEmail,ReplyContent")]TopicReply reply)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid&&!string.IsNullOrEmpty(reply.ReplyContent))
             {
-                reply.Id = 0;
                 reply.CreateOn = DateTime.Now;
-                _context.TopicReplys.Add(reply);
-                var topic = _context.Topics.Single(r => r.Id == reply.TopicId);
-                topic.LastReplyUserId = reply.UserId;
+                _reply.Add(reply);
+                var topic = _topic.GetById(reply.TopicId);
+                topic.LastReplyUserId = reply.ReplyUserId;
                 topic.LastReplyTime = reply.CreateOn;
                 topic.ReplyCount += 1;
-                _context.SaveChanges();
+                _topic.Edit(topic);
             }
             return RedirectToAction("Index", "Topic", new { Id = reply.TopicId });
         }
@@ -52,27 +58,37 @@ namespace NetCoreBBS.Controllers
         public IActionResult Node(string name)
         {
             if (string.IsNullOrEmpty(name)) return Redirect("/");
-            var node = _context.TopicNodes.FirstOrDefault(r => r.NodeName == name);
+            var node = _node.List(r => r.NodeName == name).FirstOrDefault();
             if (node == null)
-                node= _context.TopicNodes.FirstOrDefault(r => r.Id == Convert.ToInt32(name));
+                node= _node.GetById(Convert.ToInt32(name));
             if (node == null) return Redirect("/");
             var pagesize = 20;
             var pageindex = 1;
-            var topics = _context.Topics.Where(r => r.NodeId == node.Id).AsQueryable();
+            Page<Topic> result;
             if (!string.IsNullOrEmpty(Request.Query["page"]))
                 pageindex = Convert.ToInt32(Request.Query["page"]);
             if (!string.IsNullOrEmpty(Request.Query["s"]))
-                topics = topics.Where(r => r.Title.Contains(Request.Query["s"]));
-            var count = topics.Count();
-            ViewBag.Topics = topics
-                .OrderByDescending(r => r.CreateOn)
-                .OrderByDescending(r => r.Top)
-                .Skip(pagesize * (pageindex - 1))
-                .Take(pagesize).ToList();
+                result = _topic.PageList(r => r.NodeId == node.Id && r.Title.Contains(Request.Query["s"]),pagesize,pageindex);
+            else
+                result = _topic.PageList(r => r.NodeId == node.Id, pagesize, pageindex);
+            ViewBag.Topics = result.List.Select(r => new TopicViewModel
+            {
+                Id = r.Id,
+                NodeId = r.Node.Id,
+                NodeName = r.Node.Name,
+                UserName = r.User.UserName,
+                Avatar=r.User.Avatar,
+                Title = r.Title,
+                Top = r.Top,
+                Type = r.Type,
+                ReplyCount = r.ReplyCount,
+                LastReplyTime = r.LastReplyTime,
+                CreateOn = r.CreateOn
+            }).ToList();
             ViewBag.PageIndex = pageindex;
-            ViewBag.PageCount = count % pagesize == 0 ? count / pagesize : count / pagesize + 1;
+            ViewBag.PageCount = result.GetPageCount();
             ViewBag.Node = node;
-            ViewBag.Count = count;
+            ViewBag.Count = result.Total;
             return View();
         }
     }

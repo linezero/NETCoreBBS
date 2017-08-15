@@ -10,10 +10,11 @@ namespace NetCoreBBS.ViewModels
         public int Id { get; set; }
         public int NodeId { get; set; }
         public string NodeName { get; set; }
-        public string Email { get; set; }
+        public string UserName { get; set; }
+        public string Avatar { get; set; }
         public string Title { get; set; }
         public int Top { get; set; }
-        public bool Good { get; set; }
+        public Entities.TopicType Type { get; set; }
         public int ReplyCount { get; set; }
         public DateTime LastReplyTime { get; set; }
         public DateTime CreateOn { get; set; }

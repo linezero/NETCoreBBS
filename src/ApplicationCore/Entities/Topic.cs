@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace NetCoreBBS.Models
+namespace NetCoreBBS.Entities
 {
-    public class Topic
+    public class Topic:BaseEntity
     {
-        public int Id { get; set; }
         public int NodeId { get; set; }
-        public Guid UserId { get; set; }
-        [Required]
+        public TopicNode Node { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
         public string Email { get; set; }
-        [Required]
         public string Title { get; set; }
-        [Required]
         public string Content { get; set; }
         /// <summary>
         /// 置顶权重
         /// </summary>
         public int Top { get; set; }
-        /// <summary>
-        /// 精华
-        /// </summary>
-        public bool Good { get; set; }
+        public TopicType Type { get; set; }
         public int ViewCount { get; set; }
         public int ReplyCount { get; set; }
-        public Guid LastReplyUserId { get; set; }
+        public string LastReplyUserId { get; set; }
+        public User LastReplyUser { get; set; }
         public DateTime LastReplyTime { get; set; }
         public DateTime CreateOn { get; set; }
+        public virtual List<TopicReply> Replys { get; set; }
+    }
+    public enum TopicType
+    {
+        Delete=0,
+        Normal = 1,
+        Top=2,
+        Good=3,
+        Hot=4
     }
 }
