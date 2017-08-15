@@ -73,7 +73,7 @@ namespace NetCoreBBS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            env.ConfigureNLog("nlog.config");
+            loggerFactory.ConfigureNLog("nlog.config");
             loggerFactory.AddNLog();
 
             app.UseRequestIPMiddleware();
@@ -82,7 +82,7 @@ namespace NetCoreBBS
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseStatusCodePages();
 
             app.UseMvc(routes =>
