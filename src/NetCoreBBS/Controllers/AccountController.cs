@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using NetCoreBBS.Models;
+using NetCoreBBS.Entities;
 using NetCoreBBS.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NetCoreBBS.Models.User>
+﻿@model IEnumerable<User>
 
 @{
     ViewData["Title"] = "用户管理";
@@ -77,3 +77,4 @@
         }
     </tbody>
 </table>
+@Html.Partial("_PagerPartial", ViewData)

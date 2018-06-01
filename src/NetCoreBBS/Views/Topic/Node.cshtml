@@ -1,20 +1,23 @@
-﻿@{
-    ViewData["Title"] = ".NET Core 跨平台论坛";
+﻿@inject UserServices services
+@{
+    var node = ViewBag.Node as TopicNode;
+    ViewData["Title"] = node.Name + "-.NET Core 跨平台论坛";
     var list = ViewBag.Topics as List<TopicViewModel>;
-    var user = ViewBag.User as User;
-    var nodes = ViewBag.Nodes as List<TopicNode>;
+    var user = await services.User;
 }
 @model Topic
+
 <div class="row">
     <div class="col-md-9 topics">
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-                <div class="pull-right">
-                    <span class="l">查看:</span>
-                    <a href="#" class="active">默认</a> /
-                    <a href="#" class="popular">优质帖子</a> /
-                    <a href="#">无人问津</a> /
-                    <a href="#">最新创建</a>
+                <div class="node-info">
+                    <div class="name">
+                        <strong>@node.Name</strong> <span class="total">共有 @ViewBag.Count 个讨论主题</span>
+                    </div>
+                    <div class="summary">
+                        <p>@node.Name 讨论区</p>
+                    </div>
                 </div>
             </div>
             <div class="panel-body">
@@ -31,22 +34,21 @@
                                 </a>
                             </div>
                             <div class="info">
-                                <a href="/topic/node/@item.NodeId">@item.NodeName</a> &nbsp;<label>@item.UserName</label>&nbsp;发布于 @item.CreateOn.ToString("MM-dd HH:mm")
+                                <a href="/topic/node/@node.Id">@node.Name</a> 【<label>@item.UserName</label>】发布于 @item.CreateOn.ToString("MM-dd HH:mm")
                                 @if (item.LastReplyTime != DateTime.MinValue)
-                                    {
+                                {
                                     <label>最后回复 @item.LastReplyTime.ToString("MM-dd HH:mm")</label>
-                                    }
+                                }
                             </div>
                         </div>
                         <div class="count media-right">
                             @if (item.ReplyCount > 0)
-                                {
+                            {
                                 <a class="state-false" href="/Topic/@item.Id#reply@(item.ReplyCount)">@item.ReplyCount</a>
-                                }
+                            }
                         </div>
                     </div>
                 }
-
             </div>
             <div class="panel-footer clearfix">
                 @Html.Partial("_PagerPartial", ViewData)
@@ -56,14 +58,7 @@
             @if (user != null)
             {
                 <form class="form-horizontal" method="post" asp-controller="Home" asp-action="Index">
-                    <div class="form-group">
-                        <label for="inputTitle" class="col-sm-2 control-label">节点</label>
-                        <div class="col-sm-10">
-                            <select asp-for="NodeId" asp-items="ViewBag.NodeListItem" class="form-control">
-                                <option value="0">请选择一个节点</option>
-                            </select>
-                        </div>
-                    </div>
+                    <input type="hidden" asp-for="NodeId" value="@(node.Id)" />
                     <div class="form-group">
                         <label for="inputTitle" class="col-sm-2 control-label">主题</label>
                         <div class="col-sm-10">
@@ -87,27 +82,11 @@
             }
             else
             {
-                <a class="btn btn-primary btn-block" asp-controller="Account" asp-action="Login">发布新话题</a>
+                <p>
+                    需要<a asp-controller="Account" asp-action="Login" class="btn btn-primary">登录</a>发布新话题,
+                    如果你还没有账号请点击这里 <a asp-controller="Account" asp-action="Register" class="btn btn-danger">注册</a>。
+                </p>
             }
-        </div>
-        <div id="sections" class="panel panel-default">
-            <div class="panel-heading">讨论节点分类导航</div>
-            <div class="panel-body">
-                <div class="row node-list">
-                    @foreach (var item in nodes.Where(r => r.ParentId == 0).OrderBy(r => r.Order))
-                    {
-                        <div class="node media">
-                            <label class="media-left">@item.Name</label>
-                            <span class="nodes media-body">
-                                @foreach (var n in nodes.Where(r => r.ParentId == item.Id).OrderBy(r => r.Order))
-                                {
-                                    <span class="name"><a title="@n.Name" href="/topic/node/@n.NodeName">@n.Name</a></span>
-                                }
-                            </span>
-                        </div>
-                    }
-                </div>
-            </div>
         </div>
     </div>
     <div class="col-md-3">

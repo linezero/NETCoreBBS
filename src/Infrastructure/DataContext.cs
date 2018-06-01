@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NetCoreBBS.Entities;
 
-namespace NetCoreBBS.Models
+namespace NetCoreBBS.Infrastructure
 {
     public class DataContext : IdentityDbContext<User>
     {
@@ -17,7 +18,7 @@ namespace NetCoreBBS.Models
         public DbSet<TopicReply> TopicReplys { get; set; }
         public DbSet<TopicNode> TopicNodes { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
-        public DbSet<UserTopic> UserTopics { get; set; }
+        public DbSet<UserCollection> UserTopics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +28,7 @@ namespace NetCoreBBS.Models
             modelBuilder.Entity<TopicNode>().ToTable("TopicNode");
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<UserMessage>().ToTable("UserMessage");
-            modelBuilder.Entity<UserTopic>().ToTable("UserTopic");
+            modelBuilder.Entity<UserCollection>().ToTable("UserCollection");
         }
     }
 }

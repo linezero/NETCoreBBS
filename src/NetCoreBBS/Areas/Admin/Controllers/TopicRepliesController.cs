@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NetCoreBBS.Models;
+using NetCoreBBS.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreBBS.Areas.Admin.Controllers

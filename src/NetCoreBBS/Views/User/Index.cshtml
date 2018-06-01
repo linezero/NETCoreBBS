@@ -1,0 +1,99 @@
+﻿@model User
+@{
+    ViewData["Title"] = "个人主页";
+    var topics = ViewBag.Topics as List<Topic>;
+    var replys = ViewBag.Replys as List<TopicReply>;
+}
+
+<div id="main" style="margin-top:20px;">
+    <div class="row">
+        <div class="sidebar col-md-4" id="sidebar">
+            <div class="panel profile panel-default">
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="avatar media-left">
+                            <div class="image"><img class="media-object avatar-96" src="@(string.IsNullOrEmpty(Model.Avatar)?"/images/96.png":Model.Avatar)"></div>
+                        </div>
+                        <div class="media-body">
+                            <div class="item">
+                                @Model.UserName
+                                <span class="opts pull-right">
+                                </span>
+                            </div>
+                            <div class="item number">
+                                第 i 位会员 / <span title="注册日期">@Model.CreateOn.ToString("yyyy-MM-dd")</span>
+                            </div>
+                            <div class="item counts">
+                                <span>@Model.TopicCount</span> 篇帖子 • <span>@Model.TopicReplyCount</span> 条回帖
+                            </div>
+                            <div class="item social">
+
+                                <a target="_blank" rel="nofollow" href="http://mycolorway.com"><i class="glyphicon glyphicon-link"></i></a>
+
+
+                                <a href="mailto: zchar@mycolorway.com"><i class="fa fa-envelope-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-default" id="user_github_repos">
+                <div class="panel-body">
+                    未设置 GitHub 信息.
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#topics" data-toggle="tab">热门话题</a></li>
+                    <li><a href="#replies" data-toggle="tab">最近回帖</a></li>
+                    <li><a href="#description" data-toggle="tab">个人介绍</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active recent-topics" id="topics">
+                        <div class="panel panel-default">
+                            <ul class="list-group">
+                                @foreach (var item in topics)
+                                {
+                                <li class="list-group-item">
+                                    <div class="title">
+                                        <a class="node" href="/topic/@item.NodeId">@item.Node.Name</a>
+                                        <a title="@item.Title" href="/topic/@item.Id">@item.Title</a>
+                                    </div>
+                                    <div class="info">
+                                        <span class="counter">@item.ReplyCount 条回复</span>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane recent-replies" id="replies">
+                        <div class="panel panel-default">
+                            <ul class="list-group">
+                                @foreach (var item in replys)
+                                {
+                                    <li class="list-group-item">
+                                        <div class="title">
+                                            <a href="/topic/@item.TopicId">@item.ReplyContent</a>
+                                            <span class="info">at <abbr class="timeago" title="@item.CreateOn.ToString("yyyy-MM-dd")">@(DateTime.Now.Subtract(item.CreateOn).Days) 天前</abbr></span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="description">
+                        <div class="panel panel-default">
+                            @Model.Profile
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

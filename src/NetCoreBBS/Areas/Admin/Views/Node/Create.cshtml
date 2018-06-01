@@ -1,0 +1,61 @@
+﻿@model TopicNode
+
+@{
+    ViewData["Title"] = "新增节点";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>新增节点</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>主题节点</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">节点别名</label>
+            <div class="col-md-10">
+                <input asp-for="NodeName" class="form-control" />
+                <span asp-validation-for="NodeName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Order" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Order" class="form-control" value="0" />
+                <span asp-validation-for="Order" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ParentId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ParentId" class="form-control" readonly="readonly" value="@ViewBag.ParentId"/>
+                <span asp-validation-for="ParentId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="新增" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

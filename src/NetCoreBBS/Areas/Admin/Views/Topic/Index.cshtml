@@ -12,7 +12,7 @@
                 <th>发布时间</th>
                 <th>回复数</th>
                 <th>回复时间</th>
-                <th>优质</th>
+                <th>类型</th>
                 <th>回复</th>
                 <th>管理</th>
             </tr>
@@ -25,7 +25,7 @@
                     <td>@item.CreateOn</td>
                     <td>@item.ReplyCount</td>
                     <td>@item.LastReplyTime</td>
-                    <td>@(item.Good ? "是" : "否")</td>
+                    <td>@(item.Type)</td>
                     <td>
                         @if (item.ReplyCount > 0)
                     {
@@ -71,7 +71,7 @@
                         <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="notop">取消置顶</a>
                     }
                     |
-                    @if (!item.Good)
+                    @if ((int)item.Type==1)
                     {
                         <a asp-action="Update" asp-route-id="@item.Id" asp-route-type="good">优质</a>
                     }

@@ -1,10 +1,20 @@
 ﻿@{
     var pageindex = Convert.ToInt32(ViewBag.PageIndex);
     var pagecount = Convert.ToInt32(ViewBag.PageCount);
+    pagecount = pagecount == 0 ? 1 : pagecount;
+    pageindex = pageindex > pagecount ? pagecount : pageindex;
     var path = Context.Request.Path.Value;
-    var query = Context.Request.QueryString.Value;
-    query = query == "" ? "?" : $"{query}&";
-    path = path + query;
+    var query = string.Empty;
+    var querys = Context.Request.Query;
+    foreach (var item in querys)
+    {
+        if (!item.Key.Equals("page"))
+        {
+            query += $"{item.Key}={item.Value}&";
+        }
+    }
+    query = query == string.Empty ? "?" : "?" + query;
+    path += query;
     var pagestart = pageindex - 2 > 0 ? pageindex - 2 : 1;
     var pageend = pagestart + 5 >= pagecount ? pagecount : pagestart + 5;
 }
@@ -13,7 +23,7 @@
         <a href="@(pageindex==1?"#":$"{path}page={pageindex - 1}")">&#8592; 上一页</a>
     </li>
     <li @(pageindex == 1 ? "class=active" : "")><a rel="start" href="@(path)page=1">1</a></li>
-    @if (pagestart > 1)
+    @if (pagestart > 2)
     {
         <li class="disabled"><a href="#">&hellip;</a></li>
     }

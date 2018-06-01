@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TopicNode>
+
+@{
+    ViewData["Title"] = "节点管理";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>节点管理</h2>
+
+<p>
+    <a asp-action="Create" asp-route-parentid="0">新增父节点</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                名称
+            </th>
+            <th>
+                节点别名
+            </th>
+            <th>
+                排序
+            </th>
+            <th>
+                父节点
+            </th>
+            <th>
+                描述
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Where(r=>r.ParentId==0).OrderBy(r => r.Order)) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateOn)
+            </td>
+            <td>
+                <a asp-action="Create" asp-route-parentid="@item.Id">新增子节点</a>|
+                <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
+            </td>
+        </tr>
+    foreach (var node in Model.Where(r => r.ParentId == item.Id).OrderBy(r => r.Order))
+    {
+        <tr>
+            <td>
+                -->@Html.DisplayFor(modelItem => node.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => node.NodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => node.Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => node.ParentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => node.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => node.CreateOn)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@node.Id">编辑</a> |
+                <a asp-action="Delete" asp-route-id="@node.Id">删除</a>
+            </td>
+        </tr>
+    }
+}
+    </tbody>
+</table>

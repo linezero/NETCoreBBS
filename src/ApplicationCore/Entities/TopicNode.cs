@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NetCoreBBS.Models
+namespace NetCoreBBS.Entities
 {
-    public class TopicNode
+    public class TopicNode:BaseEntity
     {
-        public int Id { get; set; }
         public int ParentId { get; set; }
         public string NodeName { get; set; }
         public string Name { get; set; }

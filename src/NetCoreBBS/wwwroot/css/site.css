@@ -41,11 +41,12 @@
 .avatar-48 {
     height:48px;
     width:48px;
+    max-width:48px;
     border-radius:120px;
 }
 .title{font-size:18px;margin-bottom:0px;margin-top:0px;}
 .title a{line-height:28px;}
-.info{color:#ABA8A6;margin-bottom:0px;margin-top:0px;}
+.info{color:#ABA8A6;margin-bottom:0px;margin-top:0px;font-size:13px;}
 .node-list .node{margin-bottom:10px;margin-top:0px;}
 .node-list .node .media-left{min-width:130px;font-weight:normal;text-align:right;color:#aaa;float:left;}
 .node-list .node .name {margin-bottom:10px;width:100px;display:block;float:left;text-align:left;}
@@ -63,3 +64,25 @@
 .reply .markdown{position:relative;line-height:1.8em;text-overflow:ellipsis;word-wrap:break-word;}
 .panel-footer{padding:6px 15px;}
 .pagination{margin:0px;}
+img {
+    max-width:100%;height:auto;
+}
+.avatar-96 {
+    height: 96px;
+    width: 96px;
+    border-radius: 120px;
+}
+
+.recent-topics ul li .title,
+.recent-replies ul li .title {
+    font-size: 14px;
+}
+
+.recent-topics ul li .info {
+    font-size: 12px;
+}
+
+.recent-topics ul li .node {
+    color: #777;
+    margin-right: 3px;
+}

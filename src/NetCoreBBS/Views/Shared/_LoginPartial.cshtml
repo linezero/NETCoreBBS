@@ -6,13 +6,20 @@
     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @if (UserManager.GetUserName(User).Equals("admin"))
-                {
-                <a asp-area="Admin" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
-                }
-                else { 
-                    <a href="javascript:;">@UserManager.GetUserName(User)</a>
-                }
+                <div class="btn-group" style="margin-top:8px;">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @UserManager.GetUserName(User)<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a asp-controller="User" asp-action="Index">个人中心</a></li>
+                        <li><a asp-controller="User" asp-action="Edit">编辑个人信息</a></li>
+                        @if (UserManager.GetUserName(User).Equals("admin"))
+                        {
+                            <li role="separator" class="divider"></li>
+                            <li><a asp-area="Admin" asp-controller="Manage" asp-action="Index">管理中心</a></li>
+                        }
+                    </ul>
+                </div>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
             <li><a asp-controller="Home" asp-action="About">关于</a></li>

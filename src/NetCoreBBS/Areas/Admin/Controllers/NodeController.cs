@@ -4,31 +4,45 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreBBS.Entities;
+using NetCoreBBS.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+
 namespace NetCoreBBS.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize("Admin")]
     public class NodeController : Controller
     {
+        private DataContext _context;
+        public NodeController(DataContext context)
+        {
+            _context = context;
+        }
         // GET: Node
         public ActionResult Index()
         {
-            return View();
+            var nodes = _context.TopicNodes.ToList();
+            return View(nodes);
         }
 
         // GET: Node/Create
-        public ActionResult Create()
+        public ActionResult Create(int parentid)
         {
+            ViewBag.ParentId = parentid;
             return View();
         }
 
         // POST: Node/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(TopicNode node)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                node.CreateOn = DateTime.Now;
+                _context.Add(node);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -63,7 +77,16 @@ namespace NetCoreBBS.Areas.Admin.Controllers
         // GET: Node/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var topicnode = _context.TopicNodes.SingleOrDefault(m => m.Id == id);            
+            if (topicnode == null)
+            {
+                return NotFound();
+            }
+            var childnodes = _context.TopicNodes.Any(r => r.ParentId == id);
+            if (childnodes) return Content("存在子节点");
+            _context.TopicNodes.Remove(topicnode);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
