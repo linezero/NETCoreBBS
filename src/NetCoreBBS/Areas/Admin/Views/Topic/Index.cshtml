@@ -84,7 +84,7 @@
             }
         </tbody>
     </table>
-    @Html.Partial("_PagerPartial", ViewData)
+    @await Html.PartialAsync("_PagerPartial", ViewData)
 </div>
 <div id="replyModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg">

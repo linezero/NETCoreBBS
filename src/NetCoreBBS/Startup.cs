@@ -48,9 +48,9 @@ namespace NetCoreBBS
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
             services.AddMvc();
-            services.AddSingleton<IRepository<TopicNode>, Repository<TopicNode>>();
-            services.AddSingleton<ITopicRepository, TopicRepository>();
-            services.AddSingleton<ITopicReplyRepository, TopicReplyRepository>();
+            services.AddScoped<IRepository<TopicNode>, Repository<TopicNode>>();
+            services.AddScoped<ITopicRepository, TopicRepository>();
+            services.AddScoped<ITopicReplyRepository, TopicReplyRepository>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<UserServices>();
             services.AddMemoryCache();
@@ -73,9 +73,6 @@ namespace NetCoreBBS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.ConfigureNLog("nlog.config");
-            loggerFactory.AddNLog();
-
             app.UseRequestIPMiddleware();
 
             InitializeNetCoreBBSDatabase(app.ApplicationServices);
