@@ -57,14 +57,17 @@ namespace NetCoreBBS.Controllers
                         return Content("头像文件大小超过100KB");
                     }
                     var ext = Path.GetExtension(avatar.FileName);
-                    var avatarpath = Path.Combine("images", "avatar", user.Id + ext);
-                    var filepath = Path.Combine(_env.WebRootPath, avatarpath);
+                    var avatarfile = user.Id + ext;
+                    var avatarpath = Path.Combine(_env.WebRootPath, "images", "avatar");
+                    if (!Directory.Exists(avatarpath))
+                        Directory.CreateDirectory(avatarpath);
+                    var filepath = Path.Combine(avatarpath, avatarfile);
                     using (FileStream fs = new FileStream(filepath, FileMode.Create))
                     {
                         avatar.CopyTo(fs);
                         fs.Flush();
                     }
-                    user.Avatar = avatarpath;
+                    user.Avatar = $"/images/avatar/{avatarfile}";
                 }
                 user.Email = usermodel.Email;
                 user.Url = usermodel.Url;

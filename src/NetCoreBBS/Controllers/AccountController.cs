@@ -87,7 +87,7 @@ namespace NetCoreBBS.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await MessageServices.SendEmailAsync(model.Email, "Confirm your account",
                         "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    if (user.UserName.ToLower().Equals("admin"))
+                    if (string.Equals(user.UserName, "admin", StringComparison.OrdinalIgnoreCase))
                     {
                         await UserManager.AddClaimAsync(user, new Claim("Admin", "Allowed"));
                     }

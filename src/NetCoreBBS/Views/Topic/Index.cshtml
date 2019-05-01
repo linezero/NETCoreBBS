@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="media-right">
-                    <a href="#"><img class="media-object avatar-48" src="@(string.IsNullOrEmpty(Model.User.Avatar)?"/images/96.png": "/"+Model.User.Avatar)"></a>
+                    <a href="#"><img class="media-object avatar-48" src="@(string.IsNullOrEmpty(Model.User.Avatar)?"/images/96.png": Model.User.Avatar)"></a>
                 </div>
             </div>
             <div class="panel-body markdown">
@@ -40,7 +40,7 @@
                     <div class="reply" data-id="@item.Id" id="reply@(i+1)">
                         <div class="avatar">
                             <a href="#">
-                                <img class="media-object avatar-48" src="@(string.IsNullOrEmpty(item.ReplyUser.Avatar)?"/images/96.png": "/"+item.ReplyUser.Avatar)">
+                                <img class="media-object avatar-48" src="@(string.IsNullOrEmpty(item.ReplyUser.Avatar)?"/images/96.png": item.ReplyUser.Avatar)">
                             </a>
                         </div>
                         <div class="infos">

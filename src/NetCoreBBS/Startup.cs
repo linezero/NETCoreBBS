@@ -112,7 +112,7 @@ namespace NetCoreBBS
         {
             return new List<TopicNode>()
             {
-                new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=0, Order=1, CreateOn=DateTime.Now, },
+                new TopicNode() { Name=".NET Core", NodeName="", ParentId=0, Order=1, CreateOn=DateTime.Now, },
                 new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=1, Order=1, CreateOn=DateTime.Now, },
                 new TopicNode() { Name="ASP.NET Core", NodeName="aspnetcore", ParentId=1, Order=1, CreateOn=DateTime.Now, }
             };

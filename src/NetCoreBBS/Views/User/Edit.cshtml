@@ -15,7 +15,7 @@
     <div class="form-group">
         <label for="inputTitle" class="col-sm-2 control-label">头像</label>
         <div class="col-sm-10">
-            <img src="@("/"+Model.Avatar)" />
+            <img src="@(Model.Avatar)" style="max-width:400px;" />
             <input type="file" asp-for="Avatar">
         </div>
     </div>
