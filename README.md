@@ -15,6 +15,7 @@ ASP.NET Core + EF Core Sqlite + Bootstrap
 
 注意：默认为80端口，可能会和本地端口冲突，可以到Program.cs 中更改 `.UseUrls("http://*:80")`,然后更改启动URL既可。
 
+后台管理 使用 admin 注册后默认即为管理员，登陆后可以看到管理中心选项。
 
 ## 功能
 
