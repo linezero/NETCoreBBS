@@ -10,7 +10,7 @@ ASP.NET Core + EF Core Sqlite + Bootstrap
 ## 开发
 
 1. `git clone https://github.com/linezero/NETCoreBBS.git`
-2. 使用 Visual Studio 2017 打开 `NetCoreBBS.sln` 
+2. 使用 Visual Studio 2019 打开 `NetCoreBBS.sln` 
 3. 点击 `调试->开始调试` 即可运行起来,或者直接点击工具栏上的`NetCoreBBS`即可。
 
 注意：默认为80端口，可能会和本地端口冲突，可以到Program.cs 中更改 `.UseUrls("http://*:80")`,然后更改启动URL既可。
