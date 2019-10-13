@@ -22,7 +22,7 @@ namespace NetCoreBBS.Controllers
             _node = node;
             UserManager = userManager;
         }
-        public IActionResult Index([FromServices]IUserServices user)
+        public IActionResult Index([FromServices]IUserServices userServices)
         {
             var pagesize = 20;
             var pageindex = 1;
@@ -49,7 +49,7 @@ namespace NetCoreBBS.Controllers
             }).ToList();
             ViewBag.PageIndex = pageindex;
             ViewBag.PageCount = result.GetPageCount();
-            ViewBag.User = user.User.Result;
+            ViewBag.User = userServices.User.Result;
             var nodes = _node.List().ToList();
             ViewBag.Nodes = nodes;
             ViewBag.NodeListItem = nodes.Where(r => r.ParentId != 0).Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name });

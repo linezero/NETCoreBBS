@@ -24,16 +24,12 @@ namespace NetCoreBBS
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,10 +43,12 @@ namespace NetCoreBBS
                 };
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
-            services.AddMvc();
-            services.AddSingleton<IRepository<TopicNode>, Repository<TopicNode>>();
-            services.AddSingleton<ITopicRepository, TopicRepository>();
-            services.AddSingleton<ITopicReplyRepository, TopicReplyRepository>();
+            services.AddMvc(option=> {
+                option.EnableEndpointRouting = false;
+            });
+            services.AddScoped<IRepository<TopicNode>, Repository<TopicNode>>();
+            services.AddScoped<ITopicRepository, TopicRepository>();
+            services.AddScoped<ITopicReplyRepository, TopicReplyRepository>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<UserServices>();
             services.AddMemoryCache();
@@ -71,18 +69,15 @@ namespace NetCoreBBS
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            env.ConfigureNLog("nlog.config");
-            loggerFactory.AddNLog();
-
             app.UseRequestIPMiddleware();
 
             InitializeNetCoreBBSDatabase(app.ApplicationServices);
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseStatusCodePages();
 
             app.UseMvc(routes =>
@@ -115,7 +110,7 @@ namespace NetCoreBBS
         {
             return new List<TopicNode>()
             {
-                new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=0, Order=1, CreateOn=DateTime.Now, },
+                new TopicNode() { Name=".NET Core", NodeName="", ParentId=0, Order=1, CreateOn=DateTime.Now, },
                 new TopicNode() { Name=".NET Core", NodeName="netcore", ParentId=1, Order=1, CreateOn=DateTime.Now, },
                 new TopicNode() { Name="ASP.NET Core", NodeName="aspnetcore", ParentId=1, Order=1, CreateOn=DateTime.Now, }
             };
