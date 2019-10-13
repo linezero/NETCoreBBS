@@ -24,16 +24,12 @@ namespace NetCoreBBS
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,7 +43,9 @@ namespace NetCoreBBS
                 };
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(option=> {
+                option.EnableEndpointRouting = false;
+            });
             services.AddScoped<IRepository<TopicNode>, Repository<TopicNode>>();
             services.AddScoped<ITopicRepository, TopicRepository>();
             services.AddScoped<ITopicReplyRepository, TopicReplyRepository>();
@@ -71,7 +69,7 @@ namespace NetCoreBBS
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRequestIPMiddleware();
 

@@ -19,8 +19,8 @@ namespace NetCoreBBS.Controllers
         private ITopicRepository _topic;
         private ITopicReplyRepository _reply;
         private UserManager<User> UserManager;
-        private IHostingEnvironment _env;
-        public UserController(ITopicRepository topic, ITopicReplyRepository reply, UserManager<User> userManager, IHostingEnvironment env)
+        private IWebHostEnvironment _env;
+        public UserController(ITopicRepository topic, ITopicReplyRepository reply, UserManager<User> userManager, IWebHostEnvironment env)
         {
             _topic = topic;
             _reply = reply;
