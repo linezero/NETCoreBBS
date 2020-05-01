@@ -43,9 +43,7 @@ namespace NetCoreBBS
                 };
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
-            services.AddMvc(option=> {
-                option.EnableEndpointRouting = false;
-            });
+            services.AddMvc();
             services.AddScoped<IRepository<TopicNode>, Repository<TopicNode>>();
             services.AddScoped<ITopicRepository, TopicRepository>();
             services.AddScoped<ITopicReplyRepository, TopicReplyRepository>();
@@ -76,19 +74,19 @@ namespace NetCoreBBS
             InitializeNetCoreBBSDatabase(app.ApplicationServices);
             app.UseDeveloperExceptionPage();
 
-            app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseStatusCodePages();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoint =>
             {
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}",
+                endpoint.MapControllerRoute(name: "areaRoute",
+                    pattern: "{area:exists}/{controller}/{action}",
                     defaults: new { action = "Index" });
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoint.MapControllerRoute(name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
